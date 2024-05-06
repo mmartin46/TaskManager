@@ -1,7 +1,10 @@
+using TaskManagerGUI.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ProcessRepository, ProcessRepository>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 

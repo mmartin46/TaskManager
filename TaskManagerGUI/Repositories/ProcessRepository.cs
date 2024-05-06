@@ -3,25 +3,32 @@ using System;
 using System.Management.Automation;
 using System.Collections.Generic;
 
-namespace TaskManagerGUI
+namespace TaskManagerGUI.Repositories
 {
     public class ProcessRepository
     {
-        private const string commandName = "Get-Process | Where-Object { $_.CPU -ne $null } | Select-Object -Property Id, ProcessName, CPU";
+        private const string CommandName = "Get-Process | Where-Object { $_.CPU -ne $null } | Select-Object -Property Id, ProcessName, CPU";
         private List<ProcessModel> processList;
 
-        private List<ProcessModel> ExecuteScript()
+        private async Task<List<ProcessModel>> ExecuteScript()
         {
             List<ProcessModel> processes = new List<ProcessModel>();
             using (PowerShell powershell = PowerShell.Create())
             {
-                var results = powershell.AddScript(commandName).Invoke();
+
+                powershell.AddScript(CommandName);
+
+                var results = await powershell.InvokeAsync();
+
+
                 foreach (var result in results)
                 {
                     dynamic scriptProperties = result;
+
                     int id = scriptProperties.Id;
                     string processName = scriptProperties.ProcessName;
-                    double cpu = scriptProperties.CPU;
+                    var cpu = scriptProperties.CPU;
+                    cpu = Convert.ToDouble(((PSObject)cpu).BaseObject);
 
                     processes.Add
                     (
@@ -29,7 +36,7 @@ namespace TaskManagerGUI
                         {
                             Id = id,
                             ProcessName = processName,
-                            CPU = cpu
+                            CPU = (double) cpu
                         }
                     );
                 }
@@ -37,9 +44,10 @@ namespace TaskManagerGUI
             return processes;
         }
 
-        public List<ProcessModel> GetProcessesByName()
+        // Returns all processes based on their declared name with a sum of CPU(s)
+        public async Task<List<ProcessModel>> GetProcessesByNameAsync()
         {
-            processList = ExecuteScript();
+            processList = await ExecuteScript();
 
             var groupProcessesByName = processList.GroupBy(p => p.ProcessName)
                                                   .Select(group => new ProcessModel

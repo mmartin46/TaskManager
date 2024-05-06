@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var processList = ViewData["ProcessList"] as List<ProcessModel>;
+@using Newtonsoft.Json;
 }
 
 <div class="text-center">
@@ -13,25 +15,43 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <canvas id="myChart" style="max-width:600px"></canvas>
+            <canvas id="myChart" style="max-width:600px;"></canvas>
         </div>
     </div>
 </div>
 <script>
-    const xValues = ["Test1", "Test2", "Test3"];
-    const yValues = [30, 30, 440];
+    const xValues = [];
+    const yValues = [];
 
-    const barColors = [
-        "#ff2800",
-        "#a40000",
-        "#dc143c"
+    const randomColors = [
+        "#FF0034",
+        "#980015",
+        "#E1274D",
+        "#E71843",
+        "#D18F98",
+        "#FA4B9A"
     ];
+    @{
+        var highestCpuProcesses = processList.OrderByDescending(p => p.CPU).Take(6).ToList();
+    }
+    @foreach (var process in highestCpuProcesses)
+    {
+        <text>
+            xValues.push("@process.ProcessName");
+            yValues.push(@process.CPU);
+            console.log(0);
+        </text>
+    }
 
-    const borderColors = [
-        "#ff2800",
-        "#a40000",
-        "#dc143c"
-    ];
+    const barColors = [];
+    const borderColors = [];
+    for (let i = 0; i < xValues.length; i += 1)
+    {
+        const randomColor = randomColors[i]
+        barColors.push(randomColor);
+        borderColors.push(randomColor);
+    }
+
 
     new Chart("myChart", {
         type: "doughnut",
@@ -46,7 +66,7 @@
         options: {
             title: {
                 display: true,
-                text: "World War 3"
+                text: "Currently Running Processes"
             }
         }
     })
