@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <canvas id="myChart" style="max-width:600px"></canvas>
+        </div>
+    </div>
+</div>
+<script>
+    const xValues = ["Test1", "Test2", "Test3"];
+    const yValues = [30, 30, 440];
+
+    const barColors = [
+        "#ff2800",
+        "#a40000",
+        "#dc143c"
+    ];
+
+    const borderColors = [
+        "#ff2800",
+        "#a40000",
+        "#dc143c"
+    ];
+
+    new Chart("myChart", {
+        type: "doughnut",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                borderColor: borderColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "World War 3"
+            }
+        }
+    })
+</script>
