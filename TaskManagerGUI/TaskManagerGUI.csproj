@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.0-preview.3.24172.13" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.2" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.4.2" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.4.2" />

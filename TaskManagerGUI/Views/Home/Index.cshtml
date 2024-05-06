@@ -1,24 +1,90 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     var processList = ViewData["ProcessList"] as List<ProcessModel>;
-@using Newtonsoft.Json;
+    var memoryList = ViewData["MemoryList"] as List<MemoryModel>;
+
+    @using Newtonsoft.Json;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <canvas id="myChart" style="max-width:600px;"></canvas>
+    <div class="text-center">
+        <h2 class="display-4">Task Manager</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <canvas id="runningProcessChart" style="max-width:600px;"></canvas>
+                </div>
+                <div class="col">
+                    <canvas id="memoryCheckChart" style="max-width:600px;"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/memoryStatsHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    async function startConnection() {
+        try {
+            await connection.start();
+            console.log("SignalR Connected");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    };
+
+    connection.onclose(async () => {
+        await startConnection();
+    });
+
+    startConnection();
+
+
+
+
+    const xDates = [];
+    const yCounterSamples = [];
+
+    @foreach (var sample in memoryList)
+    {
+        <text>
+            xDates.push("@sample.TimeStamp");
+            yCounterSamples.push(Number(@sample.MegaBytes));
+        </text>
+    }
+
+    let chartData = {
+        labels: xDates,
+        datasets: [{
+            data: yCounterSamples,
+            label: "Memory Usage (MB)",
+            backgroundColor: 'transparent',
+            pointBorderWidth: 4,
+            pointStyle: 'rectRounded',
+            borderColor: '#FF2E61',
+            tension: 0.4
+        }]
+    };
+
+    new Chart("memoryCheckChart", {
+        type: 'line',
+        data: chartData
+    });
+
+</script>
+
+
 <script>
     const xValues = [];
     const yValues = [];
@@ -39,7 +105,6 @@
         <text>
             xValues.push("@process.ProcessName");
             yValues.push(@process.CPU);
-            console.log(0);
         </text>
     }
 
@@ -53,7 +118,7 @@
     }
 
 
-    new Chart("myChart", {
+    new Chart("runningProcessChart", {
         type: "doughnut",
         data: {
             labels: xValues,
@@ -69,5 +134,5 @@
                 text: "Currently Running Processes"
             }
         }
-    })
+    });
 </script>

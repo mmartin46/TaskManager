@@ -1,10 +1,13 @@
+using TaskManagerGUI.Hubs;
 using TaskManagerGUI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 builder.Services.AddScoped<ProcessRepository, ProcessRepository>();
+builder.Services.AddScoped<MemoryRepository, MemoryRepository>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 
@@ -25,8 +28,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapHub<MemoryStatsHub>("/memoryStatsHub");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();
