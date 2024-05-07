@@ -16,6 +16,7 @@
                     <canvas id="runningProcessChart" style="max-width:600px;"></canvas>
                 </div>
                 <div class="col">
+                    <h3 style="font-weight: 300;">Memory Status</h3>
                     <canvas id="memoryCheckChart" style="max-width:600px;"></canvas>
                 </div>
             </div>
@@ -44,17 +45,25 @@
         }
     };
 
+    function formatTimeStamp(timestamp) {
+        const date = new Date(timestamp);
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+
     connection.on("UpdateMemoryStats", (memoryStats) => {
         console.log("Memory Stats Updated: ", memoryStats);
-
-
 
 
         const xDates = [];
         const yCounterSamples = [];
 
         for (const stat of memoryStats) {
-            xDates.push(stat['timeStamp']);
+            xDates.push(formatTimeStamp(stat['timeStamp']));
             yCounterSamples.push(Number(stat['megaBytes']));
         }
 
@@ -63,17 +72,30 @@
             datasets: [{
                 data: yCounterSamples,
                 label: "Memory Usage (MB)",
-                backgroundColor: 'transparent',
-                pointBorderWidth: 4,
-                pointStyle: 'rectRounded',
-                borderColor: '#FF2E61',
-                tension: 0.4
+                backgroundColor: 'rgba(255, 50, 0, 1)',   
+                borderColor: 'rgba(255, 50, 0, 1)',
+                fill: 'start'
             }]
         };
 
         const memoryChart = new Chart("memoryCheckChart", {
             type: 'line',
-            data: chartData
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 20
+                    }
+                }
+            }
         });
     });
 
@@ -89,6 +111,24 @@
 
 
 <script>
+
+    
+    const processConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/processHub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    async function startConnection() {
+        try {
+            await processConnection.start();
+            console.log("SignalR Connected");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    }
+    
+
     const xValues = [];
     const yValues = [];
 
@@ -100,6 +140,13 @@
         "#D18F98",
         "#FA4B9A"
     ];
+
+    
+    connection.on("UpdateProcesses", (processList) => {
+        console.log("Processes Updated: ", processList);
+    });
+    
+
     @{
         var highestCpuProcesses = processList.OrderByDescending(p => p.CPU).Take(6).ToList();
     }

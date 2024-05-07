@@ -13,9 +13,11 @@ namespace TaskManagerGUI.Controllers
     {
         private readonly ProcessRepository _processRepository = null;
         private readonly MemoryRepository _memoryRepository = null;
-        private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
 
-        private readonly Timer _timer;
+        private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
+        private readonly IHubContext<ProcessHub> _processHubContext;
+
+        private readonly List<Timer> _timers;
         private readonly object _lock = new object();
 
         [ViewData]
@@ -24,16 +26,36 @@ namespace TaskManagerGUI.Controllers
         public List<MemoryModel> MemoryList { get; set; }
 
         public HomeController(ProcessRepository processRepository, MemoryRepository memoryRepository,
-                                IHubContext<MemoryStatsHub> memoryStatsHubContext) 
+                                IHubContext<MemoryStatsHub> memoryStatsHubContext,
+                                IHubContext<ProcessHub> processHubContext) 
         { 
             _processRepository = processRepository;
             _memoryRepository = memoryRepository;
             _memoryStatsHubContext = memoryStatsHubContext;
+            _processHubContext = processHubContext;
 
             MemoryList = new List<MemoryModel>();
-            _timer = new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+
+
+            _timers = new List<Timer>();
+
+            _timers.Add(new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5)));
+            _timers.Add(new Timer(RefreshProcessListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(10)));
         }
 
+
+        private async void RefreshProcessListAsync(object state)
+        {
+            try
+            {
+                ProcessList = await _processRepository.GetProcessesByNameAsync();
+                await _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         private void RefreshMemoryListAsync(object state)
         {

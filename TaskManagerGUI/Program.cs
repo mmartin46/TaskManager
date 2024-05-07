@@ -29,6 +29,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapHub<MemoryStatsHub>("/memoryStatsHub");
+app.MapHub<ProcessHub>("/processHub");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
