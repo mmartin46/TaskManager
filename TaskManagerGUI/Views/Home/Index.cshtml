@@ -44,6 +44,39 @@
         }
     };
 
+    connection.on("UpdateMemoryStats", (memoryStats) => {
+        console.log("Memory Stats Updated: ", memoryStats);
+
+
+
+
+        const xDates = [];
+        const yCounterSamples = [];
+
+        for (const stat of memoryStats) {
+            xDates.push(stat['timeStamp']);
+            yCounterSamples.push(Number(stat['megaBytes']));
+        }
+
+        const chartData = {
+            labels: xDates,
+            datasets: [{
+                data: yCounterSamples,
+                label: "Memory Usage (MB)",
+                backgroundColor: 'transparent',
+                pointBorderWidth: 4,
+                pointStyle: 'rectRounded',
+                borderColor: '#FF2E61',
+                tension: 0.4
+            }]
+        };
+
+        const memoryChart = new Chart("memoryCheckChart", {
+            type: 'line',
+            data: chartData
+        });
+    });
+
     connection.onclose(async () => {
         await startConnection();
     });
@@ -51,36 +84,6 @@
     startConnection();
 
 
-
-
-    const xDates = [];
-    const yCounterSamples = [];
-
-    @foreach (var sample in memoryList)
-    {
-        <text>
-            xDates.push("@sample.TimeStamp");
-            yCounterSamples.push(Number(@sample.MegaBytes));
-        </text>
-    }
-
-    let chartData = {
-        labels: xDates,
-        datasets: [{
-            data: yCounterSamples,
-            label: "Memory Usage (MB)",
-            backgroundColor: 'transparent',
-            pointBorderWidth: 4,
-            pointStyle: 'rectRounded',
-            borderColor: '#FF2E61',
-            tension: 0.4
-        }]
-    };
-
-    new Chart("memoryCheckChart", {
-        type: 'line',
-        data: chartData
-    });
 
 </script>
 
@@ -132,6 +135,9 @@
             title: {
                 display: true,
                 text: "Currently Running Processes"
+            },
+            legend: {
+                display: false
             }
         }
     });
