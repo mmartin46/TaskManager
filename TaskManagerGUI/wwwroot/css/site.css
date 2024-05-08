@@ -33,5 +33,21 @@ body {
     align-items: center;
     height: 100vh;
     width: 200px;
-    background: linear-gradient(to bottom, rgb(150, 100, 100), rgb(90, 0, 0));
+    color: black;
+    font-weight: 800;
+    background: linear-gradient(to bottom, #FF0034, rgb(50, 0, 20));
+}
+
+.frame {
+    background: linear-gradient(to bottom, rgba(255, 0, 52, 0.4), rgba(50, 0, 20, 0));
+    margin: 10px;
+    width: fit-content;
+    padding: 4%;
+    text-align: center;
+    align-content: center;
+    border-radius: 30px;
+}
+
+#memoryCheckChart {
+    align-content: center;
 }

@@ -7,17 +7,18 @@
 }
 
 
-<div class="container">
+<div class="container text-center align-content-center">
     <div class="text-center">
         <h2 class="display-4">Task Manager</h2>
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <canvas id="runningProcessChart" style="max-width:600px;"></canvas>
+                <div class="col frame">
+                    <h3 style="font-weight: 300">Running Processes</h3>
+                    <canvas id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
                 </div>
-                <div class="col">
+                <div class="col frame">
                     <h3 style="font-weight: 300;">Memory Status</h3>
-                    <canvas id="memoryCheckChart" style="max-width:600px;"></canvas>
+                    <canvas id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
                 </div>
             </div>
         </div>
@@ -72,8 +73,8 @@
             datasets: [{
                 data: yCounterSamples,
                 label: "Memory Usage (MB)",
-                backgroundColor: 'rgba(255, 50, 0, 1)',   
-                borderColor: 'rgba(255, 50, 0, 1)',
+                backgroundColor: '#FF0034',
+                borderColor: '#FF0034',
                 fill: 'start'
             }]
         };
@@ -192,12 +193,8 @@
                 }]
             },
             options: {
-                title: {
-                    display: true,
-                    text: "Currently Running Processes"
-                },
                 legend: {
-                    display: false
+                    display: true
                 }
             }
         });
