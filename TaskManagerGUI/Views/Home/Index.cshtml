@@ -129,8 +129,8 @@
     }
     
 
-    const xValues = [];
-    const yValues = [];
+    let xValues = [];
+    let yValues = [];
 
     const randomColors = [
         "#FF0034",
@@ -155,11 +155,18 @@
         topSixProcesses = topSixProcesses.slice(0, 6);
         console.log(topSixProcesses);
 
-        for (const process of topSixProcesses) {
-            xValues.push(process.processName);
-            yValues.push(process.cpu);
 
-            console.log(process);
+        for (let i = 0; i < topSixProcesses.length; i += 1) {
+            if (xValues[i] === topSixProcesses[i].processName) { 
+                let processName = xValues[i];
+                let cpuName = yValues[i];
+
+                xValues = xValues.filter(item => item !== processName);
+                yValues = yValues.filter(item => item !== cpuName);
+            }
+            
+            xValues.push(topSixProcesses[i].processName);
+            yValues.push(topSixProcesses[i].cpu);
         }
 
         const barColors = [];
@@ -174,7 +181,7 @@
         new Chart("runningProcessChart", {
             type: "doughnut",
             data: {
-                labels: xValues,
+                labels: xValues.slice(0, 6),
                 datasets: [{
                     backgroundColor: barColors,
                     borderColor: borderColors,

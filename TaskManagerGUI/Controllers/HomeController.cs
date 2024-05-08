@@ -57,6 +57,7 @@ namespace TaskManagerGUI.Controllers
                 }    
                     
                 ProcessList = _processRepository.GetProcessesByNameAsync().Result;
+                ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(6).ToList();
                 _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
            
             }
