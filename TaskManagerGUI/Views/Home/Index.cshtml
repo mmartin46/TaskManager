@@ -142,50 +142,59 @@
     ];
 
     
-    connection.on("UpdateProcesses", (processList) => {
+    processConnection.on("UpdateProcesses", (processList) => {
         console.log("Processes Updated: ", processList);
+
+        function cpuCompare(a, b) {
+            return Number(b.cpu) - Number(a.cpu);
+        }
+
+
+
+        let topSixProcesses = processList.sort(cpuCompare);
+        topSixProcesses = topSixProcesses.slice(0, 6);
+        console.log(topSixProcesses);
+
+        for (const process of topSixProcesses) {
+            xValues.push(process.processName);
+            yValues.push(process.cpu);
+
+            console.log(process);
+        }
+
+        const barColors = [];
+        const borderColors = [];
+        for (let i = 0; i < xValues.length; i += 1) {
+            const randomColor = randomColors[i];
+            barColors.push(randomColor);
+            borderColors.push(randomColor);
+        }
+
+
+        new Chart("runningProcessChart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    borderColor: borderColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Currently Running Processes"
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
     });
     
-
-    @{
-        var highestCpuProcesses = processList.OrderByDescending(p => p.CPU).Take(6).ToList();
-    }
-    @foreach (var process in highestCpuProcesses)
-    {
-        <text>
-            xValues.push("@process.ProcessName");
-            yValues.push(@process.CPU);
-        </text>
-    }
-
-    const barColors = [];
-    const borderColors = [];
-    for (let i = 0; i < xValues.length; i += 1)
-    {
-        const randomColor = randomColors[i]
-        barColors.push(randomColor);
-        borderColors.push(randomColor);
-    }
+    startConnection();
 
 
-    new Chart("runningProcessChart", {
-        type: "doughnut",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                borderColor: borderColors,
-                data: yValues
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Currently Running Processes"
-            },
-            legend: {
-                display: false
-            }
-        }
-    });
+
 </script>

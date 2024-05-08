@@ -36,20 +36,29 @@ namespace TaskManagerGUI.Controllers
 
             MemoryList = new List<MemoryModel>();
 
-
             _timers = new List<Timer>();
+            InitializeTimers();
+        }
 
+        private void InitializeTimers()
+        {
             _timers.Add(new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5)));
             _timers.Add(new Timer(RefreshProcessListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(10)));
         }
 
 
-        private async void RefreshProcessListAsync(object state)
+        private void RefreshProcessListAsync(object state)
         {
             try
             {
-                ProcessList = await _processRepository.GetProcessesByNameAsync();
-                await _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+                if (ProcessList != null)
+                {
+                    ProcessList.Clear();
+                }    
+                    
+                ProcessList = _processRepository.GetProcessesByNameAsync().Result;
+                _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+           
             }
             catch (Exception ex)
             {
