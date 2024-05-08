@@ -145,6 +145,9 @@
     processConnection.on("UpdateProcesses", (processList) => {
         console.log("Processes Updated: ", processList);
 
+        xValues = [];
+        yValues = [];
+
         function cpuCompare(a, b) {
             return Number(b.cpu) - Number(a.cpu);
         }
