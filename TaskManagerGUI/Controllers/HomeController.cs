@@ -13,6 +13,7 @@ namespace TaskManagerGUI.Controllers
     {
         private readonly ProcessRepository _processRepository = null;
         private readonly MemoryRepository _memoryRepository = null;
+        private readonly DiskRepository _diskRepository = null;
 
         private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
         private readonly IHubContext<ProcessHub> _processHubContext;
@@ -24,11 +25,17 @@ namespace TaskManagerGUI.Controllers
         public List<ProcessModel> ProcessList { get; set; }
         [ViewData]
         public List<MemoryModel> MemoryList { get; set; }
+        [ViewData]
+        public DiskModel CurrentDiskModel { get; set; }
 
-        public HomeController(ProcessRepository processRepository, MemoryRepository memoryRepository,
+        public HomeController(ProcessRepository processRepository, 
+                              MemoryRepository memoryRepository,
+                              DiskRepository diskRepository,
                                 IHubContext<MemoryStatsHub> memoryStatsHubContext,
-                                IHubContext<ProcessHub> processHubContext) 
+                                IHubContext<ProcessHub> processHubContext
+                                ) 
         { 
+            _diskRepository = diskRepository;
             _processRepository = processRepository;
             _memoryRepository = memoryRepository;
             _memoryStatsHubContext = memoryStatsHubContext;
@@ -86,6 +93,7 @@ namespace TaskManagerGUI.Controllers
 
         public async Task<ViewResult> Index()
         {
+            CurrentDiskModel = await _diskRepository.GetDiskInfo();
             ProcessList = await _processRepository.GetProcessesByNameAsync();
 
             return View();
