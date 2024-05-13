@@ -13,14 +13,8 @@ namespace TaskManagerGUI.Repositories
 
             using (var shell = PowerShell.Create())
             {
-                shell.AddCommand(PartitionCommand);
-
-                var results = await shell.InvokeAsync();
-
-                foreach (var result in results) 
-                { 
-                    
-                }
+                shell.AddCommand("Start-Process").AddArgument("notepad");
+                await shell.InvokeAsync();
             }
             return disk;
         }
