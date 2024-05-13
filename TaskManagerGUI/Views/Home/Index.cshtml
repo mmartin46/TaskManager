@@ -7,28 +7,80 @@
 }
 
 
+@{
+    string CompareToAverageCPU(List<ProcessModel> processList, double currentCPU)
+    {
+        double total = 0.0;
+        int count = processList.Count();
+        double average = 0.0;
+        foreach(ProcessModel process in processList)
+        {
+            total += process.CPU;
+        }
+        average = total / count;
+
+        double percentDifference = 100 * (average - currentCPU) / Math.Abs(currentCPU);
+        int roundedPercent = (Int32) percentDifference * -1;
+
+
+        if (roundedPercent < 0)
+        {
+            return roundedPercent.ToString() + "% Lower";
+        }
+        else
+        {
+            return roundedPercent.ToString() + "% Higher";
+        }
+    }
+}
+
 <div class="container text-center align-content-center">
     <div class="text-center">
         <h2 class="display-4">Task Manager</h2>
         <div class="container">
             <div class="row">
                 <div class="col frame">
-                    <h3 style="font-weight: 300">Running Processes</h3>
+                    <head-label message="Running Processes"></head-label>
                     <canvas id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
                 </div>
                 <div class="col frame">
-                    <h3 style="font-weight: 300;">Memory Status</h3>
+                    <head-label message="Memory Status"></head-label>
                     <canvas id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
                 </div>
             </div>
             <div class="row">
                 <div class="col frame">
-                    <h3 style="font-weight: 300;">Hello World</h3>
+                    <head-label message="High CPU(s) Usage Programs"></head-label>
+                    <canvas id="processBarChart" style="max-width:100%; height: auto;"></canvas>
                 </div>
+                <div class="col frame">
+                    <head-label message="Disk Information"></head-label>
+                </div>
+                @*
+                <div class="col" style="width: fit-content;">
+
+                   
+
+                    <div class="miniFrame align-content-center text-start">
+                        @{
+                            ProcessModel cpuExpensiveProgram = processList.OrderByDescending(x => x.CPU).Take(1).First();
+                        }
+                        <h2 class="display-5">@cpuExpensiveProgram.CPU.ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
+
+                        <div id="perc-title">
+                            <span id="percent">@CompareToAverageCPU(processList, cpuExpensiveProgram.CPU) </span><h6>Peak CPU-Intensive Task</h6>
+                        </div>
+
+                    </div>
+                </div>
+                *@
+                
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 
@@ -84,14 +136,25 @@
             }]
         };
 
+
         const memoryChart = new Chart("memoryCheckChart", {
             type: 'line',
             data: chartData,
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'white'
+                        }
+
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        }
                     }
+                    
                 },
                 layout: {
                     padding: {
@@ -99,6 +162,11 @@
                         right: 20,
                         top: 20,
                         bottom: 20
+                    }
+                },
+                legend: {
+                    labels: {
+                        fontColor: 'white'
                     }
                 }
             }
@@ -186,6 +254,25 @@
             borderColors.push(randomColor);
         }
 
+        const barChart = new Chart("processBarChart", {
+            type: 'bar',
+            data: {
+                labels: xValues.slice(0, 6),
+                datasets: [{
+                    backgroundColor: barColors,
+                    borderColor: borderColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: {
+                    display: false,
+                    labels: {
+                        fontColor: 'white'
+                    }
+                }
+            }
+        });
 
         new Chart("runningProcessChart", {
             type: "doughnut",
@@ -199,7 +286,10 @@
             },
             options: {
                 legend: {
-                    display: true
+                    display: true,
+                    labels: {
+                        fontColor: 'white'
+                    }
                 }
             }
         });

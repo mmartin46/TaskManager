@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text.Json;
+using TaskManagerGUI.Constants;
 using TaskManagerGUI.Hubs;
 using TaskManagerGUI.Models;
 using TaskManagerGUI.Repositories;
@@ -11,6 +12,7 @@ namespace TaskManagerGUI.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ProcessRepository _processRepository = null;
         private readonly MemoryRepository _memoryRepository = null;
         private readonly DiskRepository _diskRepository = null;
@@ -26,7 +28,7 @@ namespace TaskManagerGUI.Controllers
         [ViewData]
         public List<MemoryModel> MemoryList { get; set; }
         [ViewData]
-        public DiskModel CurrentDiskModel { get; set; }
+        public DiskModel ComputerDisk { get; set; }
 
         public HomeController(ProcessRepository processRepository, 
                               MemoryRepository memoryRepository,
@@ -34,10 +36,11 @@ namespace TaskManagerGUI.Controllers
                                 IHubContext<MemoryStatsHub> memoryStatsHubContext,
                                 IHubContext<ProcessHub> processHubContext
                                 ) 
-        { 
-            _diskRepository = diskRepository;
+        {
             _processRepository = processRepository;
             _memoryRepository = memoryRepository;
+            _diskRepository = diskRepository;
+
             _memoryStatsHubContext = memoryStatsHubContext;
             _processHubContext = processHubContext;
 
@@ -47,10 +50,12 @@ namespace TaskManagerGUI.Controllers
             InitializeTimers();
         }
 
+
+
         private void InitializeTimers()
         {
-            _timers.Add(new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5)));
-            _timers.Add(new Timer(RefreshProcessListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(10)));
+            _timers.Add(new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(ValueConstants.RefreshRate)));
+            _timers.Add(new Timer(RefreshProcessListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(ValueConstants.RefreshRate)));
         }
 
 
@@ -93,8 +98,8 @@ namespace TaskManagerGUI.Controllers
 
         public async Task<ViewResult> Index()
         {
-            CurrentDiskModel = await _diskRepository.GetDiskInfo();
             ProcessList = await _processRepository.GetProcessesByNameAsync();
+            ComputerDisk = await _diskRepository.GetDiskInfo();
 
             return View();
         }

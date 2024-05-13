@@ -48,4 +48,37 @@ body {
     border-radius: 30px;
 }
 
+#headingBar {
+    padding: 20px;
+    background-color: rgba(255, 0, 52, 0.3);
+    color: black;
+    margin-bottom: 2%;
+}
 
+#headingBar span {
+    font-size: 23px;
+    font-weight: 350;
+    color: red;
+}
+
+.miniFrame {
+    background-color: rgba(255, 0, 52, 0.3);
+    width: fit-content;
+    padding: 10px;
+    padding-right: 30px;
+}
+
+.my-btn {
+    border-width: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.my-btn > h6 {
+    font-weight: 400;
+    font-size: 17px;
+    color: rgba(255, 100, 52, 0.9);
+}
+
+#percent, h6 {
+    display: inline;
+}

@@ -5,25 +5,24 @@ namespace TaskManagerGUI.Repositories
 {
     public class DiskRepository
     {
-        private const string DiskCommand = "Get-Disk | Select-Object";
+        private const string DiskCommand = "Get-WmiObject -Class Win32_Processor";
         private const string PartitionCommand = "Get-Partition";
         public async Task<DiskModel> GetDiskInfo()
         {
-            using (PowerShell powershell = PowerShell.Create())
+            DiskModel ?disk = null;
+
+            using (var shell = PowerShell.Create())
             {
-                powershell.AddScript(DiskCommand);
+                shell.AddCommand(PartitionCommand);
 
-                var results = await powershell.InvokeAsync();
+                var results = await shell.InvokeAsync();
 
-                dynamic scriptProperties = results;
-
-                string FriendlyName = scriptProperties.FriendlyName;
-                string HealthStatus = scriptProperties.HealthStatus;
-                string PartitionStyle = scriptProperties.PartitionStyle;
-                string OperationalStatus = scriptProperties.OperationalStatus;
-                double TotalSize = scriptProperties.TotalSize;
+                foreach (var result in results) 
+                { 
+                    
+                }
             }
-            return new DiskModel();
+            return disk;
         }
 
     }
