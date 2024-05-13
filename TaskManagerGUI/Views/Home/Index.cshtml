@@ -25,58 +25,96 @@
 
         if (roundedPercent < 0)
         {
-            return roundedPercent.ToString() + "% Lower";
+            return roundedPercent.ToString() + "% ⬇️";
         }
         else
         {
-            return roundedPercent.ToString() + "% Higher";
+            return roundedPercent.ToString() + "% ⬆️";
         }
     }
 }
 
+
+
 <div class="container text-center align-content-center">
     <div class="text-center">
         <h2 class="display-4">Task Manager</h2>
-        <div class="container">
-            <div class="row">
-                <div class="col frame">
-                    <head-label message="Running Processes"></head-label>
-                    <canvas id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
-                </div>
-                <div class="col frame">
-                    <head-label message="Memory Status"></head-label>
-                    <canvas id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col frame">
-                    <head-label message="High CPU(s) Usage Programs"></head-label>
-                    <canvas id="processBarChart" style="max-width:100%; height: auto;"></canvas>
-                </div>
-                <div class="col frame">
-                    <head-label message="Disk Information"></head-label>
-                </div>
-                @*
-                <div class="col" style="width: fit-content;">
 
-                   
-
-                    <div class="miniFrame align-content-center text-start">
-                        @{
-                            ProcessModel cpuExpensiveProgram = processList.OrderByDescending(x => x.CPU).Take(1).First();
-                        }
-                        <h2 class="display-5">@cpuExpensiveProgram.CPU.ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
-
-                        <div id="perc-title">
-                            <span id="percent">@CompareToAverageCPU(processList, cpuExpensiveProgram.CPU) </span><h6>Peak CPU-Intensive Task</h6>
+        <div id="dataBlock"class="row">
+            <div class="col frame">
+                <div class="container">
+                    <div class="row">
+                        <div class="col frame">
+                            <head-label message="Running Processes"></head-label>
+                            <canvas id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
+                        <div class="col frame">
+                            <head-label message="Memory Status"></head-label>
+                            <canvas id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col frame">
+                            <head-label message="High CPU(s) Usage Programs"></head-label>
+                            <canvas id="processBarChart" style="max-width:100%; height: auto; position: top;"></canvas>
+                        </div>
+                        <div class="col frame">
+                            <head-label message="CPU Expensive Programs"></head-label>
+                            <br/>
+                            @{
+                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(50).ToList();
+                            }
+
+                            <div class="row align-content-center" id="shutdownProcesses" style="overflow-y: scroll; height: 200px;">
+                                @{
+
+                                    for (int i = 0; i < cpuExpensivePrograms.Count(); ++i)
+                                    {
+
+                                        var process = cpuExpensivePrograms[i];
+
+                                                <div class="col">
+                                                    <div class="miniFrame align-content-center text-start">
+
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h3>@process.ProcessName</h3>
+                                                                <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
+
+                                                                <div id="perc-title">
+                                                                    <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col align-content-center text-center">
+                                                                Hey
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                    }
+                                }
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var element = document.getElementById("shutdownProcesses");
+                                    element.scrollTop = 0;
+                                });
+                            </script>
+
+                  
+                            
+                        </div>
+
 
                     </div>
                 </div>
-                *@
-                
+
             </div>
         </div>
+
     </div>
 </div>
 
@@ -88,6 +126,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 
 <script>
+
+
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/memoryStatsHub")
         .configureLogging(signalR.LogLevel.Information)
@@ -145,13 +185,13 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: 'white'
+                            color: 'white',
                         }
 
                     },
                     x: {
                         ticks: {
-                            color: 'white'
+                            color: 'white',
                         }
                     }
                     

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Management;
 using System.Text.Json;
 using TaskManagerGUI.Constants;
 using TaskManagerGUI.Hubs;
@@ -15,7 +16,6 @@ namespace TaskManagerGUI.Controllers
 
         private readonly ProcessRepository _processRepository = null;
         private readonly MemoryRepository _memoryRepository = null;
-        private readonly DiskRepository _diskRepository = null;
 
         private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
         private readonly IHubContext<ProcessHub> _processHubContext;
@@ -27,19 +27,16 @@ namespace TaskManagerGUI.Controllers
         public List<ProcessModel> ProcessList { get; set; }
         [ViewData]
         public List<MemoryModel> MemoryList { get; set; }
-        [ViewData]
-        public DiskModel ComputerDisk { get; set; }
+
 
         public HomeController(ProcessRepository processRepository, 
                               MemoryRepository memoryRepository,
-                              DiskRepository diskRepository,
                                 IHubContext<MemoryStatsHub> memoryStatsHubContext,
                                 IHubContext<ProcessHub> processHubContext
                                 ) 
         {
             _processRepository = processRepository;
             _memoryRepository = memoryRepository;
-            _diskRepository = diskRepository;
 
             _memoryStatsHubContext = memoryStatsHubContext;
             _processHubContext = processHubContext;
@@ -69,7 +66,7 @@ namespace TaskManagerGUI.Controllers
                 }    
                     
                 ProcessList = _processRepository.GetProcessesByNameAsync().Result;
-                ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(6).ToList();
+                ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(90).ToList();
                 _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
            
             }
@@ -99,8 +96,6 @@ namespace TaskManagerGUI.Controllers
         public async Task<ViewResult> Index()
         {
             ProcessList = await _processRepository.GetProcessesByNameAsync();
-            ComputerDisk = await _diskRepository.GetDiskInfo();
-
             return View();
         }
 

@@ -10,7 +10,6 @@ builder.Services.AddSignalR();
 
 builder.Services.AddScoped<ProcessRepository, ProcessRepository>();
 builder.Services.AddScoped<MemoryRepository, MemoryRepository>();
-builder.Services.AddScoped<DiskRepository, DiskRepository>();
 
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
