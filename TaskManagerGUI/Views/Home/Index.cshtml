@@ -34,35 +34,38 @@
     }
 }
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <div class="container text-center align-content-center">
     <div class="text-center">
         <h2 class="display-4">Task Manager</h2>
 
-        <div id="dataBlock"class="row">
+        <div id="dataBlock"class="row align-content-center">
             <div class="col frame">
                 <div class="container">
-                    <div class="row">
+                    <div class="row firstChartRow">
                         <div class="col frame">
                             <head-label message="Running Processes"></head-label>
-                            <canvas id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
+                            <canvas class="dataChart" id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
                         <div class="col frame">
                             <head-label message="Memory Status"></head-label>
-                            <canvas id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
+                            <canvas class="dataChart" id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col frame">
-                            <head-label message="High CPU(s) Usage Programs"></head-label>
-                            <canvas id="processBarChart" style="max-width:100%; height: auto; position: top;"></canvas>
+                            <head-label message="CPU(s) Usage"></head-label>
+                            <canvas class="dataChart" id="processBarChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
                         <div class="col frame">
-                            <head-label message="CPU Expensive Programs"></head-label>
+                            <head-label message="Expensive Programs"></head-label>
                             <br/>
                             @{
-                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(50).ToList();
+                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(2).ToList();
                             }
 
                             <div class="row align-content-center" id="shutdownProcesses" style="overflow-y: scroll; height: 200px;">
@@ -73,26 +76,50 @@
 
                                         var process = cpuExpensivePrograms[i];
 
-                                                <div class="col">
-                                                    <div class="miniFrame align-content-center text-start">
+                                        <div class="col">
+                                            <div class="miniFrame align-content-center text-start">
 
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <h3>@process.ProcessName</h3>
-                                                                <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h3 style="font-weight: 300">@process.ProcessName</h3>
+                                                        <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
 
-                                                                <div id="perc-title">
-                                                                    <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col align-content-center text-center">
-                                                                Hey
-                                                            </div>
+                                                        <div id="perc-title">
+                                                            <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
                                                         </div>
-
                                                     </div>
+
+                                                    
+                                                    
+                                                    <script>
+                                                        function endProcess(processName) {
+                                                            console.log(`Test: ${processName}`);
+
+                                                            fetch('/Home/EndProcess', {
+                                                                method: "POST",
+                                                                body: JSON.stringify({
+                                                                    processToEnd: processName
+                                                                }),
+                                                                headers: {
+                                                                    "Content-type": "application/json; charset=UTF-8"
+                                                                }
+                                                            })
+                                                            .then(response => response.json())
+                                                            .then(json => console.log(json));
+                                                        }
+
+                                                    </script>
+
+                                                    <div class="col align-content-center text-center">
+                                                        <input onclick="endProcess('@process.ProcessName')" class="end-btn" type="button" value="End Process" />
+                                                    </div>
+
+
+
                                                 </div>
+
+                                            </div>
+                                        </div>
                                     }
                                 }
                             </div>

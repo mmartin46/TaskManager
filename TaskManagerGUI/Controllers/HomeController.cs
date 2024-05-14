@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Management;
+using System.Management.Automation;
 using System.Text.Json;
 using TaskManagerGUI.Constants;
 using TaskManagerGUI.Hubs;
@@ -53,6 +54,37 @@ namespace TaskManagerGUI.Controllers
         {
             _timers.Add(new Timer(RefreshMemoryListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(ValueConstants.RefreshRate)));
             _timers.Add(new Timer(RefreshProcessListAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(ValueConstants.RefreshRate)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EndProcess([FromBody] ProcessRequestModel requestBody)
+        {
+            ProcessResponseModel responseModel = new ProcessResponseModel();
+            try
+            {
+                Process[] processes = Process.GetProcessesByName(requestBody.ProcessToEnd);
+
+                foreach (Process process in processes)
+                {
+                    try
+                    {
+                        process.CloseMainWindow();
+                        await process.WaitForExitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to stop process: {ex.Message}");
+                    }
+                }
+
+                responseModel.Message = "Process Ended Successfully";
+                return Ok(responseModel);
+            }
+            catch (Exception ex)
+            {
+                responseModel.Message = ex.Message;
+                return StatusCode(500, responseModel);
+            }
         }
 
 
