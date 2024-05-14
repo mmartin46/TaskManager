@@ -126,5 +126,23 @@ body {
         flex-direction: column;
         width: auto;
         height: auto;
+        min-height: 400px;
     }
+
+    .buttonRow {
+        text-align: center;
+        align-content: center;
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+    }
+    .end-btn {
+        margin: 10px;
+    }
+}
+
+#mainCharts {
+    align-content: center;
+    margin-right: 30px;
 }

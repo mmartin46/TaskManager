@@ -39,7 +39,7 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<div class="container text-center align-content-center">
+<div id="mainCharts" class="container text-center align-content-center">
     <div class="text-center">
         <h2 class="display-4">Task Manager</h2>
 
@@ -79,7 +79,7 @@
                                         <div class="col">
                                             <div class="miniFrame align-content-center text-start">
 
-                                                <div class="row">
+                                                <div class="row buttonRow">
                                                     <div class="col">
                                                         <h3 style="font-weight: 300">@process.ProcessName</h3>
                                                         <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
