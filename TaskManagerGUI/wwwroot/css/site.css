@@ -17,6 +17,10 @@ html {
   min-height: 100%;
 }
 
+a:hover {
+   all: unset;
+}
+
 body {
   margin-bottom: 60px;
   background-color: rgb(0, 0, 50);
@@ -62,12 +66,18 @@ footer {
     width: 100%;
 }
     
+a {
+    all: unset;
+}
+
 #shutdownProcesses {
     border-radius: 30px;
     background-color: rgba(0, 0, 0, 0.1);
     margin: 10px;
     overflow: auto;
-    margin-top: 50px;
+}
+
+#shutdownProcesses .row {
 }
 
 .myFooter {
