@@ -57,10 +57,23 @@ body {
     margin-bottom: 2%;
 }
 
+footer {
+    position: absolute;
+    width: 100%;
+}
+    
 #shutdownProcesses {
     border-radius: 30px;
     background-color: rgba(0, 0, 0, 0.1);
     margin: 10px;
+    overflow: auto;
+    margin-top: 50px;
+}
+
+.myFooter {
+    background-color: rgba(255, 0, 52, 0.3);
+    height: fit-content;
+    padding: 30px;
 }
 
 .row {

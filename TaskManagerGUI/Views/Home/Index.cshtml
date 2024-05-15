@@ -65,7 +65,7 @@
                             <head-label message="Expensive Programs"></head-label>
                             <br/>
                             @{
-                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(2).ToList();
+                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(4).ToList();
                             }
 
                             <div class="row align-content-center" id="shutdownProcesses" style="overflow-y: scroll; height: 200px;">
@@ -76,50 +76,58 @@
 
                                         var process = cpuExpensivePrograms[i];
 
-                                        <div class="col">
+                                        <div class="col align-content-center">
                                             <div class="miniFrame align-content-center text-start">
 
-                                                <div class="row buttonRow">
-                                                    <div class="col">
-                                                        <h3 style="font-weight: 300">@process.ProcessName</h3>
-                                                        <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
-
-                                                        <div id="perc-title">
-                                                            <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
-                                                        </div>
-                                                    </div>
-
-                                                    
-                                                    
-                                                    <script>
-                                                        function endProcess(processName) {
-                                                            console.log(`Test: ${processName}`);
-
-                                                            fetch('/Home/EndProcess', {
-                                                                method: "POST",
-                                                                body: JSON.stringify({
-                                                                    processToEnd: processName
-                                                                }),
-                                                                headers: {
-                                                                    "Content-type": "application/json; charset=UTF-8"
+                                                        <div class="row buttonRow">
+                                                            <div class="col">
+                                                                @{
+                                                            var processName = process.ProcessName.Count() <= 10 ? @process.ProcessName : @process.ProcessName.Substring(0, 10) + "..";
                                                                 }
-                                                            })
-                                                            .then(response => response.json())
-                                                            .then(json => console.log(json));
-                                                        }
+                                                                <h3 style="font-weight: 300">@processName</h3>
+                                                                <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
 
-                                                    </script>
+                                                                <div id="perc-title">
+                                                                    <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
+                                                                </div>
+                                                            </div>
 
-                                                    <div class="col align-content-center text-center">
-                                                        <input onclick="endProcess('@process.ProcessName')" class="end-btn" type="button" value="End Process" />
+                                                            
+                                                            
+                                                            <script>
+                                                                document.addEventListener("DOMContentLoaded", function () {
+                                                                    var shutdownProcesses = document.querySelector('#shutdownProcesses');
+                                                                    shutdownProcesses.scrollTop = 0;
+                                                                });
+                                                                
+                                                                function endProcess(processName) {
+                                                                    console.log(`Test: ${processName}`);
+
+                                                                    fetch('/Home/EndProcess', {
+                                                                        method: "POST",
+                                                                        body: JSON.stringify({
+                                                                            processToEnd: processName
+                                                                        }),
+                                                                        headers: {
+                                                                            "Content-type": "application/json; charset=UTF-8"
+                                                                        }
+                                                                    })
+                                                                    .then(response => response.json())
+                                                                    .then(json => console.log(json));
+                                                                }
+
+                                                            </script>
+
+                                                            <div class="col align-content-center text-center">
+                                                                <input onclick="endProcess('@process.ProcessName')" class="end-btn" type="button" value="End Process" />
+                                                            </div>
+
+
+
+                                                        </div>
+
                                                     </div>
-
-
-
                                                 </div>
-
-                                            </div>
-                                        </div>
                                     }
                                 }
                             </div>
