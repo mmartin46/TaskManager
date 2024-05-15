@@ -1,0 +1,160 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var stockData = ViewData["StockNews"] as Dictionary<string, StockModel>;
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div id="stockCharts" class="cotnainer text-center align-content-center">
+
+    @{
+        string[] stats = { "Highs", "Lows", "Open", "Close", "Volume" }; 
+    }
+
+    <div class="row">
+        @for (int i = 0; i < stats.Length; ++i)
+        {
+
+            var idName = $"stockChart{i}";
+
+            <div class="col nextFrame">
+                <h2>Stock @stats[i]</h2>
+                <canvas class="dataChart" id=@idName style="max-width: 100%; height: auto;"></canvas>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+
+@{
+    var xDates = new List<string>(stockData.Keys);
+    var values = new List<StockModel>(stockData.Values);
+}
+<script>
+    const xDates = @Html.Raw(Json.Serialize(xDates));
+    const values = @Html.Raw(Json.Serialize(values));
+    let highs = [];
+    let allValues = {
+        highs: [],
+        lows: [],
+        open: [],
+        close: [],
+        volume: []
+    };
+   
+    
+    for (let i = 0; i < xDates.length; ++i) { 
+        let date = xDates[i];
+        let { high, low, open, close, volume } = values[i];
+
+        allValues.highs.push(high);
+        allValues.lows.push(low);
+        allValues.open.push(open);
+        allValues.close.push(close);
+        allValues.volume.push(volume);
+    }
+
+    const defaultScaleOptions = {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'white',
+                },
+                title: {
+                    color: 'white'
+                }
+
+            },
+            x: {
+                ticks: {
+                    color: 'white',
+                },
+                title: {
+                    color: 'white'
+                }
+            }
+
+        },
+        layout: {
+            padding: {
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: 20
+            }
+        },
+        legend: {
+        },
+        plugins: {
+        }
+    };
+
+    const data = {
+        highs: {
+            data: allValues.highs,
+            backgroundColor: '#FF0034',
+            borderColor: '#FF0034',
+            fill: 'start',
+            pointRadius: 0,
+            options: defaultScaleOptions
+        },
+        lows: {
+            data: allValues.lows,
+            backgroundColor: '#FF0034',
+            borderColor: '#FF0034',
+            fill: 'start',
+            pointRadius: 0,
+            options: defaultScaleOptions
+        },
+        open: {
+            data: allValues.open,
+            backgroundColor: '#FF0034',
+            borderColor: '#FF0034',
+            fill: 'start',
+            pointRadius: 0,
+            options: defaultScaleOptions
+        },
+        close: {
+            data: allValues.close,
+            backgroundColor: '#FF0034',
+            borderColor: '#FF0034',
+            fill: 'start',
+            pointRadius: 0,
+            options: defaultScaleOptions
+        },
+        volume: {
+            data: allValues.volume,
+            backgroundColor: '#FF0034',
+            borderColor: '#FF0034',
+            fill: 'start',
+            pointRadius: 0,
+            options: defaultScaleOptions
+        }
+    };
+
+    const allSections = Object.values(data);
+
+    for (let i = 0; i < allSections.length; ++i) {
+        const stockData = {
+            labels: xDates,
+            datasets: [allSections[i]]
+        };
+
+        console.log(allSections[i]);
+
+        const stockChart = new Chart(`stockChart${i}`, {
+            type: 'line',
+            data: stockData
+        });
+    }
+
+
+</script>
