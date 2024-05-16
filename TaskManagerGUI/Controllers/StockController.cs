@@ -11,9 +11,9 @@ namespace TaskManagerGUI.Controllers
 
         [ViewData]
         public StockModel[] StockNews { get; set; }
-        private readonly StockRepository _stockRepository = null;
+        private readonly IStockRepository _stockRepository = null;
 
-        public StockController(StockRepository stockRepository)
+        public StockController(IStockRepository stockRepository)
         {
             _stockRepository = stockRepository;
         }

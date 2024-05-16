@@ -15,8 +15,8 @@ namespace TaskManagerGUI.Controllers
     public class HomeController : Controller
     {
 
-        private readonly ProcessRepository _processRepository = null;
-        private readonly MemoryRepository _memoryRepository = null;
+        private readonly IProcessRepository _processRepository = null;
+        private readonly IMemoryRepository _memoryRepository = null;
 
         private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
         private readonly IHubContext<ProcessHub> _processHubContext;
@@ -30,8 +30,8 @@ namespace TaskManagerGUI.Controllers
         public List<MemoryModel> MemoryList { get; set; }
 
 
-        public HomeController(ProcessRepository processRepository, 
-                              MemoryRepository memoryRepository,
+        public HomeController(IProcessRepository processRepository, 
+                              IMemoryRepository memoryRepository,
                                 IHubContext<MemoryStatsHub> memoryStatsHubContext,
                                 IHubContext<ProcessHub> processHubContext
                                 ) 

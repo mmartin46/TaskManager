@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TaskManagerGUI.Repositories
 {
-    public class ProcessRepository
+    public class ProcessRepository : IProcessRepository
     {
         private const string CommandName = "Get-Process | Where-Object { $_.CPU -ne $null } | Select-Object -Property Id, ProcessName, CPU";
         private List<ProcessModel> processList;
@@ -36,7 +36,7 @@ namespace TaskManagerGUI.Repositories
                         {
                             Id = id,
                             ProcessName = processName,
-                            CPU = (double) cpu
+                            CPU = (double)cpu
                         }
                     );
                 }

@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
-builder.Services.AddScoped<ProcessRepository, ProcessRepository>();
-builder.Services.AddScoped<MemoryRepository, MemoryRepository>();
-builder.Services.AddScoped<StockRepository, StockRepository>();
+builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
+builder.Services.AddScoped<IMemoryRepository, MemoryRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();

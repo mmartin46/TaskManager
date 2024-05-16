@@ -5,10 +5,10 @@ using TaskManagerGUI.Responses;
 
 namespace TaskManagerGUI.Repositories
 {
-    public class StockRepository
+    public class StockRepository : IStockRepository
     {
 
-        public async Task<Dictionary<string, StockModel>> ProcessStockApi(string company, int minutes=5)
+        public async Task<Dictionary<string, StockModel>> ProcessStockApi(string company, int minutes = 5)
         {
             string QueryUrl = $"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={company}&interval={minutes}min&apikey=demo";
             HttpClient client = new HttpClient();
