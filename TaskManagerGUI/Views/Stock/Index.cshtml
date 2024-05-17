@@ -5,7 +5,8 @@
 
 @inject TaskManagerGUI.Repositories.IStockRepository _stockRepository;
 @{
-    var stockData = await _stockRepository.ProcessStockApi("IBM");
+    var companyName = ViewData["StockName"] as string;
+    var stockData = await _stockRepository.ProcessStockApi(companyName);
 }
 
 <div id="stockCharts" class="cotnainer text-center align-content-center">
