@@ -10,21 +10,21 @@ namespace TaskManagerGUI.Controllers
     {
 
         private readonly IStockRepository _stockRepository = null;
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
 
         [ViewData]
         public string StockName { get; set; }
 
-        public StockController(IStockRepository stockRepository, IConfiguration _configuration)
+        public StockController(IStockRepository stockRepository, IConfiguration configuration)
         {
             _stockRepository = stockRepository;
-            configuration = _configuration;
+            _configuration = configuration;
         }
         
         public async Task<ViewResult> Index()
         {
             // If a company isn't provided?
-            StockName = configuration["DefaultCompany"];
+            StockName = _configuration["DefaultCompany"];
             return View();
         }
 
