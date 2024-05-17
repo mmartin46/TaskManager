@@ -9,8 +9,6 @@ namespace TaskManagerGUI.Controllers
     public class StockController : Controller
     {
 
-        [ViewData]
-        public StockModel[] StockNews { get; set; }
         private readonly IStockRepository _stockRepository = null;
 
         public StockController(IStockRepository stockRepository)
@@ -20,7 +18,6 @@ namespace TaskManagerGUI.Controllers
         
         public async Task<ViewResult> Index()
         {
-            ViewData["StockNews"] = await _stockRepository.ProcessStockApi("IBM");
             return View();
         }
 
