@@ -10,7 +10,7 @@ namespace TaskManagerGUI.Helpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var outerElement = new TagBuilder("h3");
-            outerElement.Attributes.Add("style", "font-weight: 300; color: white;");
+            outerElement.Attributes.Add("style", "color: white;");
             outerElement.InnerHtml.AppendHtml(Message);
 
 

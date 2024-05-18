@@ -21,10 +21,18 @@ namespace TaskManagerGUI.Controllers
             _configuration = configuration;
         }
         
-        public async Task<ViewResult> Index()
+        public async Task<ViewResult> Index(string? company)
         {
+            CompanyModel stockModel = await _stockRepository.GetEarnings(company);
             // If a company isn't provided?
-            StockName = _configuration["DefaultCompany"];
+            if (company == null)
+            {
+                StockName = _configuration["DefaultCompany"];
+            }
+            else
+            {
+                StockName = company;
+            }
             return View();
         }
 

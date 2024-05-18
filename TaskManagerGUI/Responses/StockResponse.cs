@@ -5,7 +5,7 @@ namespace TaskManagerGUI.Responses
 {
     public class StockResponse
     {
-        [JsonProperty("Time Series (5min)")]
+        [JsonProperty("Time Series (Daily)")]
         public Dictionary<string, StockModel> Stocks { get; set; }
     }
 }

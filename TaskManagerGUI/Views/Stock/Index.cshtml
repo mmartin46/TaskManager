@@ -9,12 +9,12 @@
     var stockData = await _stockRepository.ProcessStockApi(companyName);
 }
 
-<div id="stockCharts" class="cotnainer text-center align-content-center">
+<div id="stockCharts" class="container text-center align-content-center">
 
     @{
-        string[] stats = { "Highs", "Lows", "Open", "Close", "Volume" }; 
+        string[] stats = { "Highs", "Lows", "Open", "Close"}; 
     }
-
+    <h1 class="display-4">@companyName Stock Statistics</h1>
     <div class="row">
         @for (int i = 0; i < stats.Length; ++i)
         {
@@ -27,7 +27,15 @@
             </div>
         }
     </div>
-
+    <div class="row">
+        @{
+            CompanyModel companyRecord = await _stockRepository.GetEarnings(companyName);
+            if (companyRecord != null)
+            {
+                /* Display information regarding the company. */
+            }
+        }
+    </div>
 
 </div>
 
@@ -37,7 +45,17 @@
     var values = new List<StockModel>(stockData.Values);
 }
 <script>
-    const xDates = @Html.Raw(Json.Serialize(xDates));
+
+    function reverseArrays(allValues, xDates) {
+        const keys = Object.keys(allValues);
+
+        xDates = xDates.reverse();
+        keys.forEach(key => {
+            allValues[key] = allValues[key].reverse();
+        });
+    }
+
+    let xDates = @Html.Raw(Json.Serialize(xDates));
     const values = @Html.Raw(Json.Serialize(values));
     let highs = [];
     let allValues = {
@@ -45,20 +63,19 @@
         lows: [],
         open: [],
         close: [],
-        volume: []
     };
    
+
     
     for (let i = 0; i < xDates.length; ++i) { 
-        let date = xDates[i];
-        let { high, low, open, close, volume } = values[i];
+        let { high, low, open, close } = values[i];
 
         allValues.highs.push(high);
         allValues.lows.push(low);
         allValues.open.push(open);
         allValues.close.push(close);
-        allValues.volume.push(volume);
     }
+    reverseArrays(allValues, xDates);
 
     const defaultScaleOptions = {
         scales: {
@@ -91,6 +108,10 @@
             }
         },
         legend: {
+            display: false,
+            labels: {
+                fontColor: 'white'
+            }
         },
         plugins: {
         }
@@ -128,14 +149,6 @@
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
-        },
-        volume: {
-            data: allValues.volume,
-            backgroundColor: '#FF0034',
-            borderColor: '#FF0034',
-            fill: 'start',
-            pointRadius: 0,
-            options: defaultScaleOptions
         }
     };
 
@@ -151,7 +164,8 @@
 
         const stockChart = new Chart(`stockChart${i}`, {
             type: 'line',
-            data: stockData
+            data: stockData,
+
         });
     }
 

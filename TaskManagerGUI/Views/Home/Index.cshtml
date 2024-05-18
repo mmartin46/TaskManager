@@ -10,7 +10,7 @@
 
 
 @{
-    string CompareToAverageCPU(List<ProcessModel> processList, double currentCPU)
+    (string, int) CompareToAverageCPU(List<ProcessModel> processList, double currentCPU)
     {
         double total = 0.0;
         int count = processList.Count();
@@ -27,11 +27,11 @@
 
         if (roundedPercent < 0)
         {
-            return roundedPercent.ToString() + "% ⬇️";
+            return (roundedPercent.ToString() + "% ⬇️", roundedPercent);
         }
         else
         {
-            return roundedPercent.ToString() + "% ⬆️";
+            return (roundedPercent.ToString() + "% ⬆️", roundedPercent);
         }
     }
 }
@@ -61,31 +61,31 @@
 
 <div id="mainCharts" class="container text-center align-content-center">
     <div class="text-center">
-        <h2 class="display-4">Task Manager</h2>
+        <h2 class="display-3">Task Manager</h2>
 
         <div id="dataBlock"class="row align-content-center">
-            <div class="col frame">
+            <div class="col">
                 <div class="container">
-                    <div class="row firstChartRow">
-                        <div class="col frame">
+                    <div class="row">
+                        <div class="col nextFrame">
                             <head-label message="Running Processes"></head-label>
                             <canvas class="dataChart" id="runningProcessChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
-                        <div class="col frame">
+                        <div class="col nextFrame">
                             <head-label message="Memory Status"></head-label>
                             <canvas class="dataChart" id="memoryCheckChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col frame">
+                        <div class="col nextFrame">
                             <head-label message="CPU(s) Usage"></head-label>
                             <canvas class="dataChart" id="processBarChart" style="max-width:100%; height: auto;"></canvas>
                         </div>
-                        <div class="col frame">
+                        <div class="col nextFrame">
                             <head-label message="Expensive Programs"></head-label>
                             <br/>
                             @{
-                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Take(4).ToList();
+                                List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Where(x => CompareToAverageCPU(processList, x.CPU).Item2 > 0).ToList();
                             }
 
                             <div class="row align-content-center" id="shutdownProcesses" style="overflow-y: scroll; height: 200px;">
@@ -108,7 +108,7 @@
                                                                                 <h2 class="display-5">@Convert.ToInt32(process.CPU).ToString()<span style="font-size: 15px;"> CPU(s)</span></h2>
 
                                                                                 <div id="perc-title">
-                                                                                    <span id="percent">@CompareToAverageCPU(processList, process.CPU) </span><h6> CPU-Intensive Task</h6>
+                                                                                    <span id="percent">@CompareToAverageCPU(processList, process.CPU).Item1 </span><h6> CPU-Intensive Task</h6>
                                                                                 </div>
                                                                             </div>
 
