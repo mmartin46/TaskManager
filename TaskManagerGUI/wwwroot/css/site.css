@@ -44,6 +44,10 @@ body {
     background: linear-gradient(to bottom, #FF0034, rgb(50, 0, 20));
 }
 
+.opt-out-color {
+    color: white;
+}
+
 .frame {
     background: linear-gradient(to bottom, rgba(255, 0, 52, 0.4), rgba(50, 0, 20, 0));
     margin: 10px;
@@ -135,7 +139,16 @@ a {
         margin: 10px;
         align-self: center;
         align-content: center;
+        width: 300px;
         color: white;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .col {
+        width: 100%;
     }
 }
 
@@ -195,9 +208,4 @@ a {
     .miniFrame {
         width: 300px;
     }
-}
-
-#mainCharts {
-    align-content: center;
-    margin-right: 30px;
 }

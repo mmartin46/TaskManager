@@ -38,7 +38,7 @@ namespace TaskManagerGUI.Repositories
             string companyToCheck;
             if (company == null) 
             {
-                companyToCheck = _configuration["DefaultCompany"];
+                companyToCheck = _configuration.GetValue<string>("DefaultCompany");
             }
             else
             {
