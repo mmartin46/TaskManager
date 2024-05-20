@@ -24,7 +24,7 @@ a:hover {
 body {
   margin-bottom: 60px;
   background-color: rgb(0,0, 30);
-  color: red;
+  color: white;
 }
 
 
@@ -147,6 +147,19 @@ header {
     align-self: center;
     align-content: center;
     width: 500px;
+    height: auto;
+    color: white;
+}
+
+.factFrame {
+    background-color: rgba(0, 10, 100, 0.3);
+    padding: 50px;
+    border-radius: 30px;
+    margin: 10px;
+    align-self: center;
+    align-content: flex-start;
+    text-align: left;
+    width: fit-content;
     height: auto;
     color: white;
 }

@@ -23,7 +23,6 @@ namespace TaskManagerGUI.Controllers
         
         public async Task<ViewResult> Index(string? company)
         {
-            CompanyModel stockModel = await _stockRepository.GetEarnings(company);
             // If a company isn't provided?
             if (company == null)
             {

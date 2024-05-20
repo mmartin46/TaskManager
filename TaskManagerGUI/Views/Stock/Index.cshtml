@@ -7,37 +7,60 @@
 @{
     var companyName = ViewData["StockName"] as string;
     var stockData = await _stockRepository.ProcessStockApi(companyName);
+    var stockModel = await _stockRepository.GetEarnings(companyName);
 }
 
 <div id="stockCharts" class="container text-center align-content-center">
 
     @{
-        string[] stats = { "Highs", "Lows", "Open", "Close"}; 
+        string[] stats = { "Highs", "Lows" }; 
     }
     <h1 class="display-4">@companyName Stock Statistics</h1>
-    <div class="row">
-        @for (int i = 0; i < stats.Length; ++i)
-        {
 
-            var idName = $"stockChart{i}";
-
-            <div class="col nextFrame">
-                <h2>Stock @stats[i]</h2>
-                <canvas class="dataChart" id=@idName style="max-width: 100%; height: auto;"></canvas>
+    <div style="margin: 30px;">
+        <h6>Search Another Company</h6>
+        <div class="text-center"style="margin: 20px;">
+            <input type="text" />
+            <div style="margin: 20px;">
+                <button class="btn btn-primary">Submit</button>
             </div>
-        }
+        </div>
     </div>
-    <div class="row">
+
+    <div class="col">
+        <div class="row">
+            @for (int i = 0; i < stats.Length; ++i)
+            {
+
+                var idName = $"stockChart{i}";
+
+                <div class="col nextFrame">
+                    <h2>Stock @stats[i]</h2>
+                    <canvas class="dataChart" id=@idName style="max-width: 100%; height: auto;"></canvas>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
         @{
             CompanyModel companyRecord = await _stockRepository.GetEarnings(companyName);
             if (companyRecord != null)
             {
                 /* Display information regarding the company. */
-                <div class="frame">
-                    <p>@companyRecord.Currency</p>
+                <div class="factFrame">
+                    <span>Full-Name</span>
+                    <h2>@companyRecord.Name</h2>
+                    <span>Earning Estimate</span>
+                    <h2>@companyRecord.Estimate @companyRecord.Currency</h2>
+                    <span>Report Date</span>
+                    <h2>@companyRecord.ReportDate</h2>
+                    <span>Fiscal Date Ending</span>
+                    <h2>@companyRecord.FiscalDateEnding</h2>
                 </div>
             }
         }
+        </div>
     </div>
 
 </div>
@@ -131,7 +154,7 @@
         highs: {
             data: allValues.highs,
             backgroundColor: gradient,
-            borderColor: '#1a8cff',
+            borderColor: '#00e3be',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
@@ -139,23 +162,7 @@
         lows: {
             data: allValues.lows,
             backgroundColor: gradient,
-            borderColor: '#1a8cff',
-            fill: 'start',
-            pointRadius: 0,
-            options: defaultScaleOptions
-        },
-        open: {
-            data: allValues.open,
-            backgroundColor: gradient,
-            borderColor: '#1a8cff',
-            fill: 'start',
-            pointRadius: 0,
-            options: defaultScaleOptions
-        },
-        close: {
-            data: allValues.close,
-            backgroundColor: gradient,
-            borderColor: '#1a8cff',
+            borderColor: '#e30081',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
