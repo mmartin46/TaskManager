@@ -120,35 +120,42 @@
         }
     };
 
+
+    const ctx = document.getElementById('stockChart1').getContext('2d');
+    const TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
+    const gradient = ctx.createLinearGradient(0, 0, 0, 500);
+    gradient.addColorStop(0, '#004d99');
+    gradient.addColorStop(1, TRANSPARENT_COLOR);
+
     const data = {
         highs: {
             data: allValues.highs,
-            backgroundColor: '#FF0034',
-            borderColor: '#FF0034',
+            backgroundColor: gradient,
+            borderColor: '#1a8cff',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
         },
         lows: {
             data: allValues.lows,
-            backgroundColor: '#FF0034',
-            borderColor: '#FF0034',
+            backgroundColor: gradient,
+            borderColor: '#1a8cff',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
         },
         open: {
             data: allValues.open,
-            backgroundColor: '#FF0034',
-            borderColor: '#FF0034',
+            backgroundColor: gradient,
+            borderColor: '#1a8cff',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
         },
         close: {
             data: allValues.close,
-            backgroundColor: '#FF0034',
-            borderColor: '#FF0034',
+            backgroundColor: gradient,
+            borderColor: '#1a8cff',
             fill: 'start',
             pointRadius: 0,
             options: defaultScaleOptions
@@ -168,7 +175,14 @@
         const stockChart = new Chart(`stockChart${i}`, {
             type: 'line',
             data: stockData,
-
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'white'
+                    }
+                }
+            }
         });
     }
 

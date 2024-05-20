@@ -23,7 +23,7 @@ a:hover {
 
 body {
   margin-bottom: 60px;
-  background-color: rgb(255,200, 200);
+  background-color: rgb(0,0, 30);
   color: red;
 }
 
@@ -60,9 +60,10 @@ body {
 
 #headingBar {
     padding: 20px;
-    background-color: rgba(255, 0, 52, 0.3);
+    background-color: rgba(0, 10, 100, 0.3);
     color: black;
     margin-bottom: 2%;
+    width: 100%;
 }
 
 footer {
@@ -72,6 +73,16 @@ footer {
     
 a {
     all: unset;
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+
+a:hover {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 #shutdownProcesses {
@@ -85,7 +96,8 @@ a {
 }
 
 .myFooter {
-    background-color: rgba(255, 0, 52, 0.3);
+    margin-top: 30px;
+    background-color: rgba(0, 10, 100, 0.3);
     height: fit-content;
     padding: 30px;
 }
@@ -99,19 +111,27 @@ a {
     display: none;
 }
 
+header {
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
 .end-btn {
     padding: 30px;
     border-radius: 20px;
     border-width: 0px;
-    background-color: rgba(255, 0, 52, 1);
+    background-color: #1a8cff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     color: white;
     transition-duration: 0.3s;
 }
 
-.end-btn:active {
-    transform: translateY(5px);
-    background-color: rgba(200, 0, 10, 1);
-}
+    .end-btn:active {
+        transform: translateY(5px);
+        background-color: rgba(0, 0, 170, 1);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    }
 
 #headingBar span {
     font-size: 23px;
@@ -120,7 +140,7 @@ a {
 }
 
 .miniFrame {
-    background-color: rgba(255, 0, 52, 0.3);
+    background-color: rgba(0, 100, 152, 0.3);
     border-radius: 30px;
     padding: 20px;
     margin: 10px;
@@ -131,9 +151,9 @@ a {
     color: white;
 }
 
-@media (max-width: 399px) {
+@media (max-width: 499px) {
     .nextFrame {
-        background-color: rgba(255, 0, 52, 0.3);
+        background-color: rgba(0, 10, 100, 0.3);
         border-radius: 30px;
         padding: 20px;
         margin: 10px;
@@ -142,19 +162,22 @@ a {
         width: 300px;
         color: white;
     }
+    .main {
+        margin-right: 5%;
+    }
 
-    .row {
+    .row:not(#shutdownProcesses) {
         flex-direction: column;
     }
 
-    .col {
+    .col:not(#shutdownProcesses) {
         width: 100%;
     }
 }
 
-@media (min-width: 400px) {
+@media (min-width: 500px) {
     .nextFrame {
-        background-color: rgba(255, 0, 52, 0.3);
+        background-color: rgba(0, 10, 100, 0.3);
         border-radius: 30px;
         padding: 20px;
         margin: 10px;

@@ -10,28 +10,34 @@
 </head>
 <body>
     <header>
-        <nav id="headingBar" class="navbar text-center">
+        <nav id="headingBar" class="text-center align-content-center">
             <div class="container-fluid">
-
+                <span class="display-3">
+                    <a class="nav-item remove-link" asp-controller="Home" asp-action="Index">Task Manager</a>
+                </span>
+                <span class="display-3">
+                    <a class="nav-item remove-link" asp-controller="Stock" asp-action="Index">Task Manager</a>
+                </span>
             </div>
-            <span class="display-3">
-                <a class="nav-item remove-link" asp-controller="Home" asp-action="Index">PC Dashboard</a>
-            </span>
-            <span class="display-3">
-                <a class="nav-item remove-link" asp-controller="Stock" asp-action="Index">Weather Forecast</a>
-            </span>
+
+
         </nav>
     </header>
     <div class="">
 
 
-        <main role="main" class="">
+        <main class="main" role="main" class="align-content-center">
             @RenderBody()
         </main>
     </div>
 
     <footer>
         <div class="myFooter text-center">
+            <div class="row">
+                <div class="col">
+
+                </div>
+            </div>
             <h5 class="opt-out-color" style="font-weight: 300">@@Copyright Mitchell Martin 2024</h5>
         </div>
     </footer>
