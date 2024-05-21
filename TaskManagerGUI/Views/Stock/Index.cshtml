@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+@model TaskManagerGUI.Models.SearchRequestModel;
 
 @inject TaskManagerGUI.Repositories.IStockRepository _stockRepository;
 @{
@@ -17,15 +18,45 @@
     }
     <h1 class="display-4">@companyName Stock Statistics</h1>
 
-    <div style="margin: 30px;">
+    <div>
         <h6>Search Another Company</h6>
         <div class="text-center"style="margin: 20px;">
-            <input type="text" />
-            <div style="margin: 20px;">
-                <button class="btn btn-primary">Submit</button>
-            </div>
+            <form method="post" asp-controller="Stock" asp-action="Search">
+                <input id="company-input" class="user-input" asp-for="RequestName" type="text" />
+                <div style="margin: 20px;">
+                    <button type="submit" class="submit-btn" id="submit-input">Searching</button>
+                </div>
+            </form>
         </div>
     </div>
+    <script>
+        /*
+        function loadStockStats(name) {
+            $.ajax({
+                url: `/Stock/Search/${name}`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ Name: name }),
+                success: function(response) {
+                    console.log(`loading page for ${name}`);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            console.log('hey there');
+
+            $("#submit-input").click(function (e) {
+                var companyName = $("#company-input").val();
+                if (companyName) {
+                    loadStockStats(companyName);
+                }
+            });
+        }); */
+    </script>
 
     <div class="col">
         <div class="row">
@@ -48,18 +79,18 @@
             if (companyRecord != null)
             {
                 /* Display information regarding the company. */
-                <div class="factFrame">
-                    <span>Full-Name</span>
-                    <h2>@companyRecord.Name</h2>
-                    <span>Earning Estimate</span>
-                    <h2>@companyRecord.Estimate @companyRecord.Currency</h2>
-                    <span>Report Date</span>
-                    <h2>@companyRecord.ReportDate</h2>
-                    <span>Fiscal Date Ending</span>
-                    <h2>@companyRecord.FiscalDateEnding</h2>
-                </div>
+                                        <div class="factFrame">
+                                            <span>Full-Name</span>
+                                            <h2>@companyRecord.Name</h2>
+                                            <span>Earning Estimate</span>
+                                            <h2>@companyRecord.Estimate @companyRecord.Currency</h2>
+                                            <span>Report Date</span>
+                                            <h2>@companyRecord.ReportDate</h2>
+                                            <span>Fiscal Date Ending</span>
+                                            <h2>@companyRecord.FiscalDateEnding</h2>
+                    </div>
+                }
             }
-        }
         </div>
     </div>
 
@@ -67,8 +98,17 @@
 
 
 @{
-    var xDates = new List<string>(stockData.Keys);
-    var values = new List<StockModel>(stockData.Values);
+    List<string> xDates = null;
+    List<StockModel> values = null;
+    try
+    {
+        xDates = new List<string>(stockData.Keys);
+        values = new List<StockModel>(stockData.Values);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"Couldn't load Company Stocks: {e}");
+    }
 }
 <script>
 
@@ -184,7 +224,7 @@
             data: stockData,
             options: {
                 legend: {
-                    display: true,
+                    display: false,
                     labels: {
                         fontColor: 'white'
                     }

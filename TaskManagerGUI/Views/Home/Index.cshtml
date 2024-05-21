@@ -83,6 +83,7 @@
                         </div>
                         <div class="col nextFrame">
                             <head-label message="Expensive Programs"></head-label>
+                            <p>These are the processes</p>
                             <br/>
                             @{
                                 List<ProcessModel> cpuExpensivePrograms = processList.OrderByDescending(x => x.CPU).Where(x => CompareToAverageCPU(processList, x.CPU).Item2 > 0).ToList();

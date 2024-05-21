@@ -20,7 +20,8 @@ namespace TaskManagerGUI.Controllers
             _stockRepository = stockRepository;
             _configuration = configuration;
         }
-        
+
+        [Route("/Stock/{company:alpha?}")]
         public async Task<ViewResult> Index(string? company)
         {
             // If a company isn't provided?
@@ -32,8 +33,22 @@ namespace TaskManagerGUI.Controllers
             {
                 StockName = company;
             }
-            return View();
+
+
+            return View(new SearchRequestModel() {  RequestName = "Bobby"});
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Search([FromForm] SearchRequestModel searchModel)
+        {
+            if (ModelState.IsValid)
+            {
+                StockName = searchModel.RequestName;
+                return RedirectToAction(nameof(Index), new { company = searchModel.RequestName });
+            }
+            return RedirectToAction(nameof(Index), new { company = "IBM" });
+        }
+
 
     }
 }
