@@ -23,11 +23,12 @@ namespace TaskManagerGUI.Controllers
             _configuration = configuration;
         }
 
-
+        [HttpGet]
         [Route("/Stock/{company:alpha?}")]
         public async Task<ViewResult> Index(string? company)
         {
-
+            SelectCompanyViewModel viewModel = new SelectCompanyViewModel();
+            viewModel.Values = await _selectCompanyRepository.GetCompanySelectListItems();
             // If a company isn't provided?
             if (company == null)
             {
@@ -39,8 +40,15 @@ namespace TaskManagerGUI.Controllers
             }
 
 
-            return View();
+            return View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult Wow(SelectCompanyViewModel viewModel)
+        {
+            return RedirectToAction(nameof(Index), new { company = viewModel.SelectedCompany });
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Search([FromForm] SearchRequestModel searchModel)

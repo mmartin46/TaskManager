@@ -21,11 +21,15 @@ namespace TaskManagerGUI.Repositories
             {
                 foreach (var company in companiesFromDatabase)
                 {
-                    companiesToAppend.Add(new SelectCompanyModel()
+                    if (companiesToAppend.Where(x => x.Name.Equals(company.Name)).Count() < 1)
                     {
-                        Id = company.Id,
-                        Symbol = company.Symbol
-                    });
+                        companiesToAppend.Add(new SelectCompanyModel()
+                        {
+                            Id = company.Id,
+                            Symbol = company.Symbol,
+                            Name = company.Name
+                        });
+                    }
                 }
             }
             return companiesToAppend;
@@ -36,7 +40,7 @@ namespace TaskManagerGUI.Repositories
             List<SelectListItem> companyNames = new List<SelectListItem>();
             foreach (SelectCompanyModel company in await GetCompanySymbols())
             {
-                companyNames.Add(new SelectListItem() { Value=company.Symbol, Text=company.Symbol });
+                companyNames.Add(new SelectListItem() { Value=company.Symbol, Text=company.Name });
             }
             return companyNames;
         }

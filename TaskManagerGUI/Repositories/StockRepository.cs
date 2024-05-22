@@ -17,7 +17,7 @@ namespace TaskManagerGUI.Repositories
 
         public async Task<Dictionary<string, StockModel>> ProcessStockApi(string company, int minutes = 5)
         {
-            string QueryUrl = $"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={company}&outputsize=full&apikey=demo";
+            string QueryUrl = $"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={company}&outputsize=full&apikey=K848YE2HT6B4E53P";
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(QueryUrl);
             if (response.IsSuccessStatusCode)
@@ -65,7 +65,7 @@ namespace TaskManagerGUI.Repositories
                             {
 
                                 string currency = record.currency;
-                                double estimate = double.Parse(record.estimate);
+                                string estimate = (record.estimate);
                                 string name = record.name;
                                 DateTime fiscalDateEnding = DateTime.Parse(record.fiscalDateEnding);
                                 DateTime reportDate = DateTime.Parse(record.reportDate);
