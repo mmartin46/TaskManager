@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagerGUI.Data;
 using TaskManagerGUI.Models;
+using TaskManagerGUI.Constants;
 
 namespace TaskManagerGUI.Repositories
 {
@@ -42,7 +43,7 @@ namespace TaskManagerGUI.Repositories
             {
                 companyNames.Add(new SelectListItem() { Value=company.Symbol, Text=company.Name });
             }
-            return companyNames.Take(10).ToList();
+            return companyNames.Take(ValueConstants.MaxCompanyNames).ToList();
         }
 
     }
