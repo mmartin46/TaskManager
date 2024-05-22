@@ -21,7 +21,7 @@
         <h6>Search Another Company</h6>
         <div class="text-center"style="margin: 20px;">
             <form method="post" asp-controller="Stock" asp-action="Wow">
-                <select asp-for="SelectedCompany" asp-items="Model.Values"></select>
+                <select asp-for="SelectedCompany" asp-items="Model.Values" class="dark-drop-down"></select>
                 <br/>
                 <input class="btn btn-primary" type="submit" name="LoadEarnings" value="Load Earnings"/>
             </form>

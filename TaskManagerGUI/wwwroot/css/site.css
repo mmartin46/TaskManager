@@ -8,6 +8,25 @@ html {
   }
 }
 
+.dark-drop-down {
+    background-color: rgb(255, 255, 255, 0.3);
+    color: rgb(255, 255, 255);
+    border-width: 0;
+    margin-bottom: 20px;
+}
+
+.dark-drop-down option {
+    background-color: rgb(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+}
+
+.dark-drop-down.open {
+    background-color: rgb(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
+}
+
+
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
