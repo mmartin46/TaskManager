@@ -1,8 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-
-@model TaskManagerGUI.Models.SearchRequestModel;
+@model SelectCompanyModel;
 
 @inject TaskManagerGUI.Repositories.IStockRepository _stockRepository;
 @{
@@ -21,12 +20,7 @@
     <div>
         <h6>Search Another Company</h6>
         <div class="text-center"style="margin: 20px;">
-            <form method="post" asp-controller="Stock" asp-action="Search">
-                <input id="company-input" class="user-input" asp-for="RequestName" type="text" />
-                <div style="margin: 20px;">
-                    <button type="submit" class="submit-btn" id="submit-input">Searching</button>
-                </div>
-            </form>
+
         </div>
     </div>
     <script>

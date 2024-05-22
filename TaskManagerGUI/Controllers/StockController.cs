@@ -10,20 +10,24 @@ namespace TaskManagerGUI.Controllers
     {
 
         private readonly IStockRepository _stockRepository = null;
+        private readonly ISelectCompanyRepository _selectCompanyRepository = null;
         private readonly IConfiguration _configuration;
 
         [ViewData]
         public string StockName { get; set; }
 
-        public StockController(IStockRepository stockRepository, IConfiguration configuration)
+        public StockController(IStockRepository stockRepository, ISelectCompanyRepository selectCompanyRepository, IConfiguration configuration)
         {
             _stockRepository = stockRepository;
+            _selectCompanyRepository = selectCompanyRepository;
             _configuration = configuration;
         }
+
 
         [Route("/Stock/{company:alpha?}")]
         public async Task<ViewResult> Index(string? company)
         {
+
             // If a company isn't provided?
             if (company == null)
             {
@@ -35,7 +39,7 @@ namespace TaskManagerGUI.Controllers
             }
 
 
-            return View(new SearchRequestModel() {  RequestName = "Bobby"});
+            return View();
         }
 
         [HttpPost]

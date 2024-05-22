@@ -1,13 +1,24 @@
+using TaskManagerGUI.Data;
 using TaskManagerGUI.Hubs;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Razor;
 using TaskManagerGUI.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
+builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlServer(
+    "Server=.;Database=earningdb;Encrypt=False;Trusted_Connection=True;"
+));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<ISelectCompanyRepository, SelectCompanyRepository>();
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
 builder.Services.AddScoped<IMemoryRepository, MemoryRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
