@@ -42,7 +42,7 @@ namespace TaskManagerGUI.Repositories
             {
                 companyNames.Add(new SelectListItem() { Value=company.Symbol, Text=company.Name });
             }
-            return companyNames;
+            return companyNames.Take(10).ToList();
         }
 
     }
