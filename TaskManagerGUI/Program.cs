@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlServer(
-    "Server=.;Database=earningdb;Encrypt=False;Trusted_Connection=True;"
+    configuration.GetConnectionString("DatabaseConnection")
 ));
 
 
