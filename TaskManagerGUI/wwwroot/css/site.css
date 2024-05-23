@@ -8,6 +8,22 @@ html {
   }
 }
 
+#headingBar span {
+    margin: 30px;
+}
+
+@media (min-width: 501px) {
+    #headingBar span a {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 500px) {
+    #headingBar span a {
+        font-size: 14px;
+    }
+}
+
 .dark-drop-down {
     background-color: rgb(255, 255, 255, 0.3);
     color: rgb(255, 255, 255);
@@ -16,7 +32,7 @@ html {
 }
 
 .dark-drop-down option {
-    background-color: rgb(255, 255, 255, 0.2);
+    background-color: rgb(0, 0, 0, 0.8);
     color: rgb(255, 255, 255);
 }
 
@@ -120,6 +136,7 @@ body {
 
 footer {
     position: absolute;
+    bottom: 0;
     width: 100%;
 }
     
