@@ -14,5 +14,5 @@ Task Manager Dashboard developed utilizing the ASP.NET CORE Framework
 <a href='https://postimg.cc/Q9SgzwKD' target='_blank'><img src='https://i.postimg.cc/Q9SgzwKD/Screenshot-2024-06-18-124910.png' border='0' alt='Screenshot-2024-06-18-124910'/></a>
 
 ### Technologies Used
-#### Backend: ASP.NET Core, Entity Framework Core, T-SQL
+#### Backend: ASP.NET Core, Entity Framework Core, T-SQL, Powershell
 #### Frontend: Razor Pages, Bootstrap, JQuery
