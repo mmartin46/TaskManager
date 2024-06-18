@@ -4,8 +4,10 @@ Task Manager Dashboard developed utilizing the ASP.NET CORE Framework
 
 ## Key Features
 
-- Real-time updates and notification
+- Real-time updates and notification using SignalR
 - Response design implemented for mobile/desktop devices
+- Allows users to end tasks which have high processing power.
+
 
 #### Screenshots
 
