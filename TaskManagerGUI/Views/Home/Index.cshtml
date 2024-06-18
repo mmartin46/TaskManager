@@ -63,7 +63,7 @@
     <div class="text-center">
         <h1 class="display-4">Task Manager</h1>
 
-        <div id="dataBlock"class="row align-content-center">
+        <div id="dataBlock" class="row align-content-center">
             <div class="col">
                 <div class="container">
                     <div class="row">
@@ -241,12 +241,13 @@
         const memoryChart = new Chart("memoryCheckChart", {
             type: 'line',
             data: chartData,
+            scaleFontColor: '#FFFFFF',
             options: {
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: 'white',
+                            color: Chart.defaults.backgroundColor,
                         },
                         title: {
                             display: true,

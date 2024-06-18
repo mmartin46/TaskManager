@@ -79,10 +79,6 @@ namespace TaskManagerGUI.Repositories
                                     ReportDate = reportDate
                                 };
                             }
-                            else
-                            {
-
-                            }
                         }
                     }
                 }
