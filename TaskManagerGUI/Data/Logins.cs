@@ -1,6 +1,6 @@
-﻿namespace TaskManagerGUI.Models
+﻿namespace TaskManagerGUI.Data
 {
-    public class LoginModel
+    public class Logins
     {
         public string Username { get; set; }
         public string Password { get; set; }
