@@ -15,7 +15,7 @@ builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlSer
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<ISelectCompanyRepository, SelectCompanyRepository>();

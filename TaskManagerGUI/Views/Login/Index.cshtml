@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model LoginModel;
+
+<div class="text-center" style="margin-top: 40vh;margin-bottom: 50vh;">
+    <h3>Login</h3>
+
+
+    <form method="post" asp-controller="Login" asp-action="AuthenticateUser">
+        <div class="padding">
+            <div class="flexem form-group">
+                <label asp-for="Username">Username</label>
+                <input class="text-center" asp-for="Username" type="text" />
+            </div>
+            <div class="flexem form-group">
+                <label asp-for="Password">Password</label>
+                <input class="text-center" asp-for="Password" type="text" />
+            </div>
+        </div>
+
+        
+        <button class="submit-btn" type="submit">Submit</button>
+    </form>
+
+
+
+</div>
