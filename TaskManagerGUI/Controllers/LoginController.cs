@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using TaskManagerGUI.Models;
+using TaskManagerGUI.Repositories;
 
 namespace TaskManagerGUI.Controllers
 {
@@ -9,9 +10,10 @@ namespace TaskManagerGUI.Controllers
     {
         [ViewData]
         public string? ErrorMessage { get; set; }
-        public LoginController()
+        private readonly IUserRepository _userRepository = null;
+        public LoginController(IUserRepository userRepository)
         {
-
+            _userRepository = userRepository;
         }
 
         public ViewResult Index()
@@ -33,21 +35,29 @@ namespace TaskManagerGUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AuthenticateRegister([FromForm] RegisterModel registerModel)
+        public async Task AuthenticateRegister([FromForm] RegisterModel registerModel)
         {
+            ViewData["ErrorMessage"] = "";
+            bool trueValidState = true;
             if (ModelState.IsValid)
             {
                 if (!registerModel.Password.Equals(registerModel.ConfirmPassword))
                 {
+                    trueValidState = false;
                     ViewData["ErrorMessage"] = "Passwords don't match";  
                 }
-                else
+                if (!registerModel.Email.Equals(registerModel.ConfirmEmail))
+                {
+                    trueValidState = false;
+                    ViewData["ErrorMessage"] += "\nEmails don't match";
+                }
+
+                if (trueValidState == true)
                 {
                     /* Insert into database */
+                    await _userRepository.Add(registerModel);
                 }
             }
-
-            return Json("{ }");
         }
     }
 }

@@ -13,6 +13,10 @@ builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlSer
     configuration.GetConnectionString("DatabaseConnection")
 ));
 
+builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(
+    configuration.GetConnectionString("UserConnection")
+));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -22,7 +26,7 @@ builder.Services.AddScoped<ISelectCompanyRepository, SelectCompanyRepository>();
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
 builder.Services.AddScoped<IMemoryRepository, MemoryRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 

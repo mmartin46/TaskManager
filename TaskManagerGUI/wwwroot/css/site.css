@@ -194,6 +194,10 @@ a:hover {
     z-index: 100;
 }
 
+.no-border {
+    border-width: 0px;
+}
+
 .padding {
     padding-bottom: 20px;
 }
