@@ -35,7 +35,7 @@ namespace TaskManagerGUI.Controllers
         }
 
         [HttpPost]
-        public async Task AuthenticateRegister([FromForm] RegisterModel registerModel)
+        public async Task<ViewResult> AuthenticateRegister([FromForm] RegisterModel registerModel)
         {
             ViewData["ErrorMessage"] = "";
             bool trueValidState = true;
@@ -56,8 +56,10 @@ namespace TaskManagerGUI.Controllers
                 {
                     /* Insert into database */
                     await _userRepository.Add(registerModel);
+                    return View();
                 }
             }
+            return Register();
         }
     }
 }
