@@ -22,10 +22,21 @@ namespace TaskManagerGUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AuthenticateUser([FromForm] LoginModel loginModel)
+        public async Task<ActionResult> AuthenticateUser([FromForm] LoginModel loginModel)
         {
+            List<LoginModel> users = await _userRepository.Get();
+            bool userExists = (from user in users
+                              where user.Username.Equals(loginModel.Username) &&
+                                    user.Password.Equals(loginModel.Password)
+                              select user).Any();
 
-            return Json("{ }");
+            if (ModelState.IsValid && userExists)
+            {
+                return View();
+            }
+
+
+            return Index();
         }
 
        

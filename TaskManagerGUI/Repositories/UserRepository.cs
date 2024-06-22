@@ -12,7 +12,7 @@ namespace TaskManagerGUI.Repositories
             _userContext = userContext;
         }
 
-        private async Task<List<LoginModel>> Get()
+        public async Task<List<LoginModel>> Get()
         {
             List<LoginModel> allUsers = new List<LoginModel>();
             var users = await _userContext.Users.ToListAsync();
@@ -36,6 +36,8 @@ namespace TaskManagerGUI.Repositories
             }
             return allUsers;
         }
+
+
 
         public async Task Add(RegisterModel? userModel)
         {
