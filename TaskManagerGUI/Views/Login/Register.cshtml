@@ -6,29 +6,40 @@
 
 @model RegisterModel;
 
+
+
 <div class="text-center" style="margin-top: 40vh;margin-bottom: 50vh;">
     <h3>Register</h3>
 
+    @if (ViewBag.didAuthenticate == false)
+    {
+        <h6>Please fill all fields correctly</h6>
+    }
 
     <form method="post" asp-controller="Login" asp-action="AuthenticateRegister">
         <div class="padding">
             <div class="flexem form-group">
+                <span class="text-danger" asp-validation-for="Username"></span>
                 <label asp-for="Username">Username</label>
                 <input class="no-border text-center" asp-for="Username" type="text" />
             </div>
             <div class="flexem form-group">
+                <span class="text-danger" asp-validation-for="Password"></span>
                 <label asp-for="Password">Password</label>
                 <input type="password" class="no-border text-center" asp-for="Password" type="text" />
             </div>
             <div class="flexem form-group">
+                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                 <label asp-for="ConfirmPassword">Confirm Password</label>
                 <input type="password" class="no-border text-center" asp-for="ConfirmPassword" type="text" />
             </div>
             <div class="flexem form-group">
+                <span class="text-danger" asp-validation-for="Email"></span>
                 <label asp-for="Email">Email</label>
                 <input type="email" class="no-border text-center" asp-for="Email" type="text" />
             </div>
             <div class="flexem form-group">
+                <span class="text-danger" asp-validation-for="ConfirmEmail"></span>
                 <label asp-for="ConfirmEmail">Confirm Email</label>
                 <input type="email" class="no-border text-center" asp-for="ConfirmEmail" type="text" />
             </div>

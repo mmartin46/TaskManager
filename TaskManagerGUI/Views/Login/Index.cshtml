@@ -9,6 +9,11 @@
 <div class="text-center" style="margin-top: 40vh;margin-bottom: 50vh;">
     <h3>Login</h3>
 
+    @if (ViewBag.DidAuthenticate == false)
+    {
+        
+    }
+
 
     <form method="post" asp-controller="Login" asp-action="AuthenticateUser">
         <div class="padding">

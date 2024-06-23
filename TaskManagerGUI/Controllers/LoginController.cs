@@ -16,8 +16,9 @@ namespace TaskManagerGUI.Controllers
             _userRepository = userRepository;
         }
 
-        public ViewResult Index()
+        public ViewResult Index(bool? didAuthenticate)
         {
+            ViewBag.DidAuthenticate = didAuthenticate;
             return View();
         }
 
@@ -36,17 +37,19 @@ namespace TaskManagerGUI.Controllers
             }
 
 
-            return Index();
+            return RedirectToAction(nameof(Index), new { didAuthenticate = false });
         }
 
        
-        public ViewResult Register()
+        public ViewResult Register(bool? didAuthenticate)
         {
+            ViewBag.didAuthenticate = didAuthenticate;
             return View();
         }
 
+
         [HttpPost]
-        public async Task<ViewResult> AuthenticateRegister([FromForm] RegisterModel registerModel)
+        public async Task<IActionResult> AuthenticateRegister([FromForm] RegisterModel registerModel)
         {
             ViewData["ErrorMessage"] = "";
             bool trueValidState = true;
@@ -70,7 +73,7 @@ namespace TaskManagerGUI.Controllers
                     return View();
                 }
             }
-            return Register();
+            return RedirectToAction(nameof(Register), new { didAuthenticate = false });
         }
     }
 }
