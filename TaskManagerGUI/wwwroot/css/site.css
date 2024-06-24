@@ -8,6 +8,16 @@ html {
   }
 }
 
+.main-black {
+    position: absolute;
+    background-color: green;
+    width: 100%;
+}
+
+
+.main-black a {
+    color: white;
+}
 #headingBar span {
     margin: 30px;
 }
@@ -157,6 +167,32 @@ body {
     font-size: 10px;
 }
 
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.reg {
+    display: block;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    padding-top: 50vh;
+    padding-bottom: 50vh;
+    top: 0;
+    background-color: rgb(2, 92, 152);
+    width: 500px;
+    z-index: 199;
+}
+
 footer {
     position: absolute;
     bottom: 0;
@@ -211,7 +247,7 @@ a:hover {
 }
 
 .myFooter {
-    background-color: rgba(0, 10, 100, 0.3);
+    background-color: rgb(59, 82, 194);
     height: fit-content;
     padding: 30px;
     margin-top: 50px;
@@ -284,6 +320,11 @@ header {
     height: auto;
     color: white;
 }
+
+.main {
+    margin-top: 100px;
+}
+
 
 @media (max-width: 499px) {
     .nextFrame {
