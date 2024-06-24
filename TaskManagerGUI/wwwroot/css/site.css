@@ -188,9 +188,25 @@ body {
     padding-top: 50vh;
     padding-bottom: 50vh;
     top: 0;
-    background-color: rgb(2, 92, 152);
+    background-color: rgb(36, 86, 204);
+    box-shadow: 5px 15px 10px rgba(0,0,0, 0.3);
     width: 500px;
     z-index: 199;
+}
+
+#open-sidebar {
+    padding-left: 40px;
+    margin-top: -6px;
+    position: absolute;
+    left: 0;
+}
+
+.sidebar h2 {
+    position: fixed;
+    align-content: right;
+    padding: 30px;
+    padding-bottom: 20px;
+    top: 0;
 }
 
 footer {

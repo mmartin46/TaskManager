@@ -10,11 +10,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TaskManagerGUI.styles.css" asp-append-version="true" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <header>
         <nav id="headingBar" class="text-center align-content-center">
-
+            <h2 id="open-sidebar"><</h2>
             <div class="container-fluid">
                 <span class="display-3">
                     <a class="nav-item remove-link" asp-controller="Home" asp-action="Index">TASK MANAGER</a>
@@ -27,7 +31,27 @@
         </nav>
 
     </header>
+    <script>
+        $(document).ready(function () {
+            $("#close-sidebar").click(function() {
+
+
+                $("#sidebar").animate(
+                    {"left": "-=600px"}
+                    , "fast");
+            });
+            $("#open-sidebar").click(function () {
+
+
+                $("#sidebar").animate(
+                    { "left": "+=600px" }
+                    , "fast");
+            });
+        });
+    </script>
+
     <article id="sidebar"class="sidebar text-center">
+        <h2 id="close-sidebar">></h2>
         <h1 class="display-4">Hello, Guest</h1>
         <div>
             <span>
