@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using TaskManagerGUI.Controllers
+@{
+    var username = ViewData["username"] as string;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -52,7 +57,7 @@
 
     <article id="sidebar"class="sidebar text-center">
         <h2 id="close-sidebar">></h2>
-        <h1 class="display-4">Hello, Guest</h1>
+        <h1 class="display-4">Hello, @IBaseController.Username</h1>
         <div>
             <span>
                 <a class="nav-item remove-link" asp-controller="Login" asp-action="Index">Login</a>

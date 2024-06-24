@@ -12,7 +12,7 @@ using TaskManagerGUI.Repositories;
 
 namespace TaskManagerGUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : IBaseController
     {
 
         private readonly IProcessRepository _processRepository = null;

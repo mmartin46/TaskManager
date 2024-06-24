@@ -6,5 +6,6 @@ namespace TaskManagerGUI.Repositories
     {
         Task<bool> Add(RegisterModel? userModel);
         Task<List<LoginModel>> Get();
+        Task<LoginModel?> GetUser(string username);
     }
 }

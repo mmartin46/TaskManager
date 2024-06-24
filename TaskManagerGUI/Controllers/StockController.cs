@@ -6,7 +6,7 @@ using TaskManagerGUI.Repositories;
 
 namespace TaskManagerGUI.Controllers
 {
-    public class StockController : Controller
+    public class StockController : IBaseController
     {
 
         private readonly IStockRepository _stockRepository = null;

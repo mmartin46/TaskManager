@@ -37,6 +37,15 @@ namespace TaskManagerGUI.Repositories
             return allUsers;
         }
 
+        public async Task<LoginModel?> GetUser(string username)
+        {
+            IEnumerable<LoginModel> users = await this.Get();
+            users = from user in users
+                    where user.Username.Equals(username)
+                    select user;
+            return users.FirstOrDefault();
+        }
+
 
 
         public async Task<bool> Add(RegisterModel? userModel)

@@ -6,7 +6,7 @@ using TaskManagerGUI.Repositories;
 
 namespace TaskManagerGUI.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : IBaseController
     {
         [ViewData]
         public string? ErrorMessage { get; set; }
@@ -31,8 +31,9 @@ namespace TaskManagerGUI.Controllers
                                     user.Password.Equals(loginModel.Password)
                               select user).Any();
 
-            if (ModelState.IsValid && userExists)
+            if (userExists)
             {
+                Username = loginModel.Username;
                 return View();
             }
 
