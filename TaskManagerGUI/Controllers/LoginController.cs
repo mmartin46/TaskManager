@@ -41,9 +41,10 @@ namespace TaskManagerGUI.Controllers
         }
 
        
-        public ViewResult Register(bool? didAuthenticate)
+        public ViewResult Register(bool? didAuthenticate, bool? userExists)
         {
             ViewBag.didAuthenticate = didAuthenticate;
+            ViewBag.UserExists = userExists;
             return View();
         }
 
@@ -69,11 +70,18 @@ namespace TaskManagerGUI.Controllers
                 if (trueValidState == true)
                 {
                     /* Insert into database */
-                    await _userRepository.Add(registerModel);
-                    return View();
+                    bool userExists = await _userRepository.Add(registerModel);
+                    if (!userExists)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Register), new { didAuthenticate = true, userExists = true });
+                    }
                 }
             }
-            return RedirectToAction(nameof(Register), new { didAuthenticate = false });
+            return RedirectToAction(nameof(Register), new { didAuthenticate = false, userExists = false });
         }
     }
 }

@@ -15,6 +15,10 @@
     {
         <h6>Please fill all fields correctly</h6>
     }
+    @if (ViewBag.UserExists == true)
+    {
+        <h6>User already exists</h6>
+    }
 
     <form method="post" asp-controller="Login" asp-action="AuthenticateRegister">
         <div class="padding">
@@ -26,12 +30,12 @@
             <div class="flexem form-group">
                 <span class="text-danger" asp-validation-for="Password"></span>
                 <label asp-for="Password">Password</label>
-                <input type="password" class="no-border text-center" asp-for="Password" type="text" />
+                <input type="password" class="no-border text-center" asp-for="Password" />
             </div>
             <div class="flexem form-group">
                 <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                 <label asp-for="ConfirmPassword">Confirm Password</label>
-                <input type="password" class="no-border text-center" asp-for="ConfirmPassword" type="text" />
+                <input type="password" class="no-border text-center" asp-for="ConfirmPassword" />
             </div>
             <div class="flexem form-group">
                 <span class="text-danger" asp-validation-for="Email"></span>

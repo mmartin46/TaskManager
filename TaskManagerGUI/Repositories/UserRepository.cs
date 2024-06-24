@@ -39,12 +39,12 @@ namespace TaskManagerGUI.Repositories
 
 
 
-        public async Task Add(RegisterModel? userModel)
+        public async Task<bool> Add(RegisterModel? userModel)
         {
             bool userExists = false;
             if (userModel == null)
             {
-                return;
+                return false;
             }
 
             Logins user = new Logins
@@ -59,7 +59,9 @@ namespace TaskManagerGUI.Repositories
             {
                 await _userContext.Users.AddAsync(user);
                 await _userContext.SaveChangesAsync();
+                return false;
             }
+            return true;
         }
     }
 }
