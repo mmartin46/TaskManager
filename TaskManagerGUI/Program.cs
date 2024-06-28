@@ -9,6 +9,7 @@ using TaskManagerGUI.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+
 builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlServer(
     configuration.GetConnectionString("DatabaseConnection")
 ));
@@ -17,11 +18,16 @@ builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(
     configuration.GetConnectionString("UserConnection")
 ));
 
+builder.Services.AddDbContext<ServiceDatabaseContext>(options => options.UseSqlServer(
+    configuration.GetConnectionString("ServiceConnection")
+));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<ISelectCompanyRepository, SelectCompanyRepository>();
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
 builder.Services.AddScoped<IMemoryRepository, MemoryRepository>();

@@ -21,9 +21,9 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+    <h2 id="open-sidebar">></h2>
     <header>
         <nav id="headingBar" class="text-center align-content-center">
-            <h2 id="open-sidebar"><</h2>
             <div class="container-fluid">
                 <span class="display-3">
                     <a class="nav-item remove-link" asp-controller="Home" asp-action="Index">TASK MANAGER</a>
@@ -42,21 +42,21 @@
 
 
                 $("#sidebar").animate(
-                    {"left": "-=600px"}
+                    {"left": "-=300px"}
                     , "fast");
             });
             $("#open-sidebar").click(function () {
 
 
                 $("#sidebar").animate(
-                    { "left": "+=600px" }
+                    { "left": "+=300px" }
                     , "fast");
             });
         });
     </script>
 
     <article id="sidebar"class="sidebar text-center">
-        <h2 id="close-sidebar">></h2>
+        <h2 id="close-sidebar"><</h2>
         <h1 class="display-4">Hello, @IBaseController.Username</h1>
         <div>
             <span>
@@ -64,6 +64,9 @@
             </span>
             <span>
                 <a class="nav-item remove-link" asp-controller="Login" asp-action="Register">Register</a>
+            </span>
+            <span>
+                <a class="nav-item remove-link" asp-controller="Login" asp-action="Logout">Logout</a>
             </span>
         </div>
     </article>

@@ -1,6 +1,7 @@
 ﻿// John 3:5
 
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerGUI.Constants;
 using TaskManagerGUI.Models;
 using TaskManagerGUI.Repositories;
 
@@ -46,6 +47,12 @@ namespace TaskManagerGUI.Controllers
         {
             ViewBag.didAuthenticate = didAuthenticate;
             ViewBag.UserExists = userExists;
+            return View();
+        }
+
+        public ViewResult Logout()
+        {
+            Username = ValueConstants.DefaultUsername;
             return View();
         }
 

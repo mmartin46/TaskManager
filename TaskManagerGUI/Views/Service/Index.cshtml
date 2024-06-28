@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string ShowButton(string status)
+    {
+        return status.Equals("Stopped") ? "Start" : "Stop";
+    }
+}
+
+@model List<ServiceModel>;
+
+
+<div class="service-layout ">
+    <h3 class="text-center">Current Services</h3>
+    <div class="as-rows">
+        <h3>Search</h3>
+        <input id="service-query" type="text"/>
+
+        <button id="sbmt-btn"class="serv-btn">Submit</button>
+    </div>
+
+    <div class="scroll-services">
+        <div class="table-responsive-sm">
+            <table class="table">
+                <tr>
+                    <th>Display Name</th>
+                    <th>Status</th>
+                    <th>Run Process</th>
+                </tr>
+                @foreach (var service in Model)
+                {
+                    ServiceModel currService = (ServiceModel)service;
+                    <tr>
+                        <td>@currService.DisplayName</td>
+                        <td>@currService.Status</td>
+                        <td>
+                            <form asp-controller="Service" asp-action="ConfigureService"
+                                asp-route-displayName="@currService.DisplayName"
+                                asp-route-status="@currService.Status">
+                                <button class="serv-btn">
+                                    @ShowButton(currService.Status)
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        const value = $("#service-query").val();
+
+        const filterServices = async (value) => {
+            $("#sbmt-btn").click(function () {
+                value = $("#service-query").val();
+                console.log(`value is ${value}`);
+                    fetch(`/Service/QueryService`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        displayName: value
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    })
+                    .then((res) => console.log(res))
+                    .catch((err) => console.log(err));
+
+                window.location.href = `/service?name=${value}`;
+            });
+
+        }
+
+        filterServices();
+
+    });
+</script>
+
