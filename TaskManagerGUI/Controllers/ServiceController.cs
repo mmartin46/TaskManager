@@ -20,10 +20,10 @@ namespace TaskManagerGUI.Controllers
             return View(allServices.Take(100).ToList());
         }
         [HttpPost]
-        public IActionResult ConfigureService(string displayName, string status)
+        public async Task<IActionResult> ConfigureService(string displayName, string status)
         {
 
-            _serviceRepository.ConfigureService(displayName, status);
+            await _serviceRepository.ConfigureService(displayName, status);
             return RedirectToAction(nameof(Index));
         }
 

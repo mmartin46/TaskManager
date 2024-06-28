@@ -51,7 +51,7 @@ namespace TaskManagerGUI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Search([FromForm] SearchRequestModel searchModel)
+        public IActionResult Search([FromForm] SearchRequestModel searchModel)
         {
             if (ModelState.IsValid)
             {
