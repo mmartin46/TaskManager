@@ -245,6 +245,7 @@ mytable {
     padding-top: 50vh;
     padding-bottom: 50vh;
     top: 0;
+    transform: translateX(-300px);
     background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(154,154,255,1) 0%, rgba(0,212,255,1) 100%);
     box-shadow: 5px 15px 10px rgba(0,0,0, 0.3);
     width: 300px;
