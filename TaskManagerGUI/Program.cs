@@ -7,8 +7,10 @@ using TaskManagerGUI.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
+var configuration = builder.Configuration;
 
 builder.Services.AddDbContext<SelectCompanyContext>(options => options.UseSqlServer(
     configuration.GetConnectionString("DatabaseConnection")
@@ -24,6 +26,7 @@ builder.Services.AddDbContext<ServiceDatabaseContext>(options => options.UseSqlS
 
 
 // Add services to the container.
+builder.Services.AddLogging(builder => builder.AddConsole());
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSignalR();
 

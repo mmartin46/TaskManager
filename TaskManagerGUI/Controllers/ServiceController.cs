@@ -22,6 +22,7 @@ namespace TaskManagerGUI.Controllers
         [HttpPost]
         public IActionResult ConfigureService(string displayName, string status)
         {
+
             _serviceRepository.ConfigureService(displayName, status);
             return RedirectToAction(nameof(Index));
         }

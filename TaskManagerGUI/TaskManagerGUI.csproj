@@ -4,7 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
+
+
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="32.0.3" />
@@ -24,6 +28,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.2" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.4.2" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.4.2" />

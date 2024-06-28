@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using System.ServiceProcess;
 using TaskManagerGUI.Data;
 using TaskManagerGUI.Models;
 
@@ -8,10 +9,12 @@ namespace TaskManagerGUI.Repositories
     {
         private ServiceDatabaseContext _dbContext;
         private const string command = "Get-Service";
+        private readonly ILogger<ServiceRepository> _logger;
 
-        public ServiceRepository(ServiceDatabaseContext dbContext)
+        public ServiceRepository(ServiceDatabaseContext dbContext, ILogger<ServiceRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
 
@@ -60,28 +63,53 @@ namespace TaskManagerGUI.Repositories
             return [.. services];
         }
 
-        public void ConfigureService(string serviceName, string state)
+        private async Task UpdateService(string name, string state)
         {
-            string GetCommand(string command) =>
-                command switch
-                {
-                    "Start" => $"Get-Service -DisplayName \"{serviceName}\" | Stop-Service -whatif",
-                    "Stop" => $"Get-Service -DisplayName \"{serviceName}\" | Start-Service -whatif",
-                    _ => $"Get-Service -DisplayName \"{serviceName}\" | Stop-Service -whatif"
-                };
+            var record = _dbContext.Services.FirstOrDefault(service => service.DisplayName.Equals(name));
 
+            if (record != null)
+            {
+                if (state.Equals("Running"))
+                {
+                    record.Status = "Stopped";
+                }
+                else if (state.Equals("Stopped"))
+                {
+                    record.Status = "Running";
+                }
+
+                _dbContext.Entry(record).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        private async Task ToggleService(ServiceController service, string state)
+        {
+            if (service.Status == ServiceControllerStatus.Stopped)
+            {
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running);
+            }
+            else if (service.Status == ServiceControllerStatus.Running)
+            {
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped);
+            }
+
+            await UpdateService(service.DisplayName, state);
+        }
+
+        public async Task ConfigureService(string serviceName, string state)
+        {
+            ServiceController service = new ServiceController(serviceName, state);
             try
             {
-                using (var powerShell = PowerShell.Create())
-                {
-                    _ = powerShell.AddScript(GetCommand(state)).Invoke();
-                }
-            }
-            catch (Exception ex)
+                await ToggleService(service, state);
+            } catch (Exception ex)
             {
-                throw new Exception("Couldn't execute process", ex);
+                _logger.LogError("Problem toggling service {0} : {1}", serviceName, ex);
             }
-
+            
         }
 
     }
