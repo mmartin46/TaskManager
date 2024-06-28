@@ -78,7 +78,8 @@ namespace TaskManagerGUI.Repositories
                     record.Status = "Running";
                 }
 
-                _dbContext.Entry(record).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _dbContext.Attach(record);
+                _dbContext.Entry(record).Property(p => p.Status).IsModified = true;
                 await _dbContext.SaveChangesAsync();
             }
         }
@@ -101,7 +102,7 @@ namespace TaskManagerGUI.Repositories
 
         public async Task ConfigureService(string serviceName, string state)
         {
-            ServiceController service = new ServiceController(serviceName, state);
+            ServiceController service = new ServiceController(serviceName);
             try
             {
                 await ToggleService(service, state);
