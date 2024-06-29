@@ -1,6 +1,7 @@
 ﻿// John 3:5
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using TaskManagerGUI.Constants;
 using TaskManagerGUI.Models;
 using TaskManagerGUI.Repositories;
@@ -22,7 +23,7 @@ namespace TaskManagerGUI.Controllers
             ViewBag.DidAuthenticate = didAuthenticate;
             return View();
         }
-
+        [EnableRateLimiting("login")]
         [HttpPost]
         public async Task<ActionResult> AuthenticateUser([FromForm] LoginModel loginModel)
         {
@@ -66,7 +67,7 @@ namespace TaskManagerGUI.Controllers
             return View();
         }
 
-
+        [EnableRateLimiting("register")]
         [HttpPost]
         public async Task<IActionResult> AuthenticateRegister([FromForm] RegisterModel registerModel)
         {

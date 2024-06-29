@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Razor;
 using TaskManagerGUI.Repositories;
+using Microsoft.AspNetCore.RateLimiting;
+using TaskManagerGUI.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,8 @@ builder.Services.AddDbContext<ServiceDatabaseContext>(options => options.UseSqlS
 // Add services to the container.
 builder.Services.AddLogging(builder => builder.AddConsole());
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddLoginRateLimiter();
+
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
@@ -55,7 +59,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseLoginRateLimiter();
+
 app.UseAuthorization();
+
 
 
 app.MapHub<MemoryStatsHub>("/memoryStatsHub");
