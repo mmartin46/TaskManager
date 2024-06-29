@@ -11,7 +11,7 @@ namespace TaskManagerGUI.Controllers
     {
         [ViewData]
         public string? ErrorMessage { get; set; }
-        private readonly IUserRepository _userRepository = null;
+        private readonly IUserRepository? _userRepository = null;
         public LoginController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -26,11 +26,16 @@ namespace TaskManagerGUI.Controllers
         [HttpPost]
         public async Task<ActionResult> AuthenticateUser([FromForm] LoginModel loginModel)
         {
-            List<LoginModel> users = await _userRepository.Get();
+            List<LoginModel>? users = null;
+
+            if (_userRepository is not null)
+            {
+                users = await _userRepository.Get();
+            }
             bool userExists = (from user in users
-                              where user.Username.Equals(loginModel.Username) &&
-                                    user.Password.Equals(loginModel.Password)
-                              select user).Any();
+                               where user.Username.Equals(loginModel.Username) &&
+                                     user.Password.Equals(loginModel.Password)
+                               select user).Any();
 
             if (userExists)
             {
@@ -83,14 +88,17 @@ namespace TaskManagerGUI.Controllers
                 if (trueValidState == true)
                 {
                     /* Insert into database */
-                    bool userExists = await _userRepository.Add(registerModel);
-                    if (!userExists)
+                    if (_userRepository is not null)
                     {
-                        return View();
-                    }
-                    else
-                    {
-                        return RedirectToAction(nameof(Register), new { didAuthenticate = true, userExists = true });
+                        bool userExists = await _userRepository.Add(registerModel);
+                        if (!userExists)
+                        {
+                            return View();
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(Register), new { didAuthenticate = true, userExists = true });
+                        }
                     }
                 }
             }

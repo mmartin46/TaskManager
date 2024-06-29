@@ -8,7 +8,7 @@ namespace TaskManagerGUI.Repositories
     public class ProcessRepository : IProcessRepository
     {
         private const string CommandName = "Get-Process | Where-Object { $_.CPU -ne $null } | Select-Object -Property Id, ProcessName, CPU";
-        private List<ProcessModel> processList;
+        private List<ProcessModel>? processList = null;
 
         private async Task<List<ProcessModel>> ExecuteScript()
         {

@@ -8,7 +8,7 @@ namespace TaskManagerGUI.Repositories
 {
     public class SelectCompanyRepository : ISelectCompanyRepository
     {
-        private readonly SelectCompanyContext _context = null;
+        private readonly SelectCompanyContext? _context = null;
         public SelectCompanyRepository(SelectCompanyContext context)
         {
             _context = context;

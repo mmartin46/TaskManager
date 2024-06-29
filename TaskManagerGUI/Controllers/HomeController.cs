@@ -15,8 +15,8 @@ namespace TaskManagerGUI.Controllers
     public class HomeController : IBaseController
     {
 
-        private readonly IProcessRepository _processRepository = null;
-        private readonly IMemoryRepository _memoryRepository = null;
+        private readonly IProcessRepository? _processRepository = null;
+        private readonly IMemoryRepository? _memoryRepository = null;
 
         private readonly IHubContext<MemoryStatsHub> _memoryStatsHubContext;
         private readonly IHubContext<ProcessHub> _processHubContext;
@@ -105,9 +105,12 @@ namespace TaskManagerGUI.Controllers
                         ProcessList.Clear();
                     }
 
-                    ProcessList = _processRepository.GetProcessesByNameAsync().Result;
-                    ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(90).ToList();
-                    _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+                    if (_processRepository is not null)
+                    {
+                        ProcessList = _processRepository.GetProcessesByNameAsync().Result;
+                        ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(90).ToList();
+                        _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+                    }
                 }
             }
             catch
@@ -122,10 +125,13 @@ namespace TaskManagerGUI.Controllers
             {
                 lock (_lock)
                 {
-                    var memoryModel = _memoryRepository.GetMemoryModelAsync().Result;
-                    MemoryList.Add(memoryModel);
+                    if (_memoryRepository is not null)
+                    {
+                        var memoryModel = _memoryRepository.GetMemoryModelAsync().Result;
+                        MemoryList.Add(memoryModel);
+                    }
+                    _memoryStatsHubContext.Clients.All.SendAsync("UpdateMemoryStats", MemoryList);
                 }
-                _memoryStatsHubContext.Clients.All.SendAsync("UpdateMemoryStats", MemoryList);
             }
             catch
             {
@@ -135,7 +141,11 @@ namespace TaskManagerGUI.Controllers
 
         public async Task<ViewResult> Index()
         {
-            ProcessList = await _processRepository.GetProcessesByNameAsync();
+            if (_processRepository is not null)
+            {
+                ProcessList = await _processRepository.GetProcessesByNameAsync();
+            }
+
             return View();
         }
 
