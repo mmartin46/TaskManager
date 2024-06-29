@@ -50,8 +50,13 @@ namespace TaskManagerGUI.Controllers
             return View();
         }
 
-        public ViewResult Logout()
+        public IActionResult Logout()
         {
+            if (Username.Equals(ValueConstants.DefaultUsername))
+            {
+                return RedirectToAction(nameof(Index), new { didAuthenticate = false });
+            }
+
             Username = ValueConstants.DefaultUsername;
             return View();
         }
