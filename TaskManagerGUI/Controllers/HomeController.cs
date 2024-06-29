@@ -24,6 +24,8 @@ namespace TaskManagerGUI.Controllers
         private readonly List<Timer> _timers;
         private readonly object _lock = new object();
 
+        private ILogger<IBaseController> _logger;
+
         [ViewData]
         public List<ProcessModel> ProcessList { get; set; }
         [ViewData]
@@ -33,8 +35,8 @@ namespace TaskManagerGUI.Controllers
         public HomeController(IProcessRepository processRepository, 
                               IMemoryRepository memoryRepository,
                                 IHubContext<MemoryStatsHub> memoryStatsHubContext,
-                                IHubContext<ProcessHub> processHubContext
-                                ) 
+                                IHubContext<ProcessHub> processHubContext,
+                                ILogger<IBaseController> logger)
         {
             _processRepository = processRepository;
             _memoryRepository = memoryRepository;
@@ -45,8 +47,9 @@ namespace TaskManagerGUI.Controllers
             MemoryList = new List<MemoryModel>();
 
             _timers = new List<Timer>();
-            InitializeLists();
+
             InitializeTimers();
+            _logger = logger;
         }
 
 
@@ -89,11 +92,6 @@ namespace TaskManagerGUI.Controllers
             }
         }
 
-        private void InitializeLists()
-        {
-            RefreshMemoryListAsync(new object { });
-            RefreshProcessListAsync(new object { }  );
-        }
 
 
         private void RefreshProcessListAsync(object state)
@@ -112,7 +110,7 @@ namespace TaskManagerGUI.Controllers
             }
             catch
             {
-
+                _logger.LogInformation("Couldn't load from processes");
             }
         }
 
@@ -129,7 +127,7 @@ namespace TaskManagerGUI.Controllers
             }
             catch
             {
-
+                _logger.LogInformation("Couldn't load from memory");
             }
         }
 
