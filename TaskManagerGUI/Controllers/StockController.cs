@@ -9,8 +9,8 @@ namespace TaskManagerGUI.Controllers
     public class StockController : IBaseController
     {
 
-        private readonly IStockRepository _stockRepository = null;
-        private readonly ISelectCompanyRepository _selectCompanyRepository = null;
+        private readonly IStockRepository? _stockRepository = null;
+        private readonly ISelectCompanyRepository? _selectCompanyRepository = null;
         private readonly IConfiguration _configuration;
 
         [ViewData]
