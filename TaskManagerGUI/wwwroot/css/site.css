@@ -355,7 +355,15 @@ a:hover {
     text-align: center;
 }
 
+body {
+    align-content: center;
+    overflow-x: hidden;
+}
+
 .myFooter {
+    position: absolute;
+    width: 105%;
+    bottom: 0px;
     background-color: rgb(59, 82, 194);
     height: fit-content;
     padding: 30px;
@@ -517,9 +525,7 @@ header {
         margin: 10px;
     }
 
-    .miniFrame {
-        width: 300px;
-    }
+
 
 }
 
