@@ -305,7 +305,7 @@ mytable {
 footer {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 103%;
 }
     
 a {
@@ -360,9 +360,10 @@ body {
     overflow-x: hidden;
 }
 
+
 .myFooter {
     position: absolute;
-    width: 105%;
+    width: 100%;
     bottom: 0px;
     background-color: rgb(59, 82, 194);
     height: fit-content;
