@@ -510,7 +510,10 @@ body {
     opacity: 1;
 }
 
-
+.additional-padding {
+    display: block;
+    align-content: center;
+}
 
 
 .stock-btn:active {

@@ -10,91 +10,92 @@
     var stockModel = await _stockRepository.GetEarnings(companyName);
 }
 
-<div id="stockCharts" class="container text-center align-content-center">
+<div class="additional-padding">
+    <div id="stockCharts" class="container text-center align-content-center">
 
-    @{
-        string[] stats = { "Highs", "Lows" }; 
-    }
-    <h1 class="display-4">@companyName Stock Statistics</h1>
-
-    <div>
-        <h6>Search Another Company</h6>
-        <div class="text-center"style="margin: 20px;">
-            <form method="post" asp-controller="Stock" asp-action="Wow">
-                <select asp-for="SelectedCompany" asp-items="Model.Values" class="dark-drop-down"></select>
-                <br/>
-                <input class="stock-btn" type="submit" name="LoadEarnings" value="Load Earnings"/>
-            </form>
-        </div>
-    </div>
-    <script>
-        /*
-        function loadStockStats(name) {
-            $.ajax({
-                url: `/Stock/Search/${name}`,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ Name: name }),
-                success: function(response) {
-                    console.log(`loading page for ${name}`);
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
+        @{
+            string[] stats = { "Highs", "Lows" }; 
         }
+        <h1 class="display-4">@companyName Stock Statistics</h1>
 
-        $(document).ready(function () {
-            console.log('hey there');
+        <div>
+            <h6>Search Another Company</h6>
+            <div class="text-center"style="margin: 20px;">
+                <form method="post" asp-controller="Stock" asp-action="Wow">
+                    <select asp-for="SelectedCompany" asp-items="Model.Values" class="dark-drop-down"></select>
+                    <br/>
+                    <input class="stock-btn" type="submit" name="LoadEarnings" value="Load Earnings"/>
+                </form>
+            </div>
+        </div>
+        <script>
+            /*
+            function loadStockStats(name) {
+                $.ajax({
+                    url: `/Stock/Search/${name}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ Name: name }),
+                    success: function(response) {
+                        console.log(`loading page for ${name}`);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }
 
-            $("#submit-input").click(function (e) {
-                var companyName = $("#company-input").val();
-                if (companyName) {
-                    loadStockStats(companyName);
+            $(document).ready(function () {
+                console.log('hey there');
+
+                $("#submit-input").click(function (e) {
+                    var companyName = $("#company-input").val();
+                    if (companyName) {
+                        loadStockStats(companyName);
+                    }
+                });
+            }); */
+        </script>
+
+        <div class="col">
+            <div class="row">
+                @for (int i = 0; i < stats.Length; ++i)
+                {
+
+                    var idName = $"stockChart{i}";
+
+                    <div class="col nextFrame">
+                        <h2>Stock @stats[i]</h2>
+                        <canvas class="dataChart" id=@idName style="max-width: 100%; height: auto;"></canvas>
+                    </div>
                 }
-            });
-        }); */
-    </script>
-
-    <div class="col">
-        <div class="row">
-            @for (int i = 0; i < stats.Length; ++i)
-            {
-
-                var idName = $"stockChart{i}";
-
-                <div class="col nextFrame">
-                    <h2>Stock @stats[i]</h2>
-                    <canvas class="dataChart" id=@idName style="max-width: 100%; height: auto;"></canvas>
-                </div>
-            }
+            </div>
         </div>
-    </div>
-    <div class="col">
-        <div class="row">
-        @*
-       @{
-            CompanyModel companyRecord = await _stockRepository.GetEarnings(companyName);
-            if (companyRecord != null)
-            {
-                /* Display information regarding the company. */
-                                        <div class="factFrame">
-                                            <span>Full-Name</span>
-                                            <h2>@companyRecord.Name</h2>
-                                            <span>Earning Estimate</span>
-                                            <h2>@companyRecord.Estimate @companyRecord.Currency</h2>
-                                            <span>Report Date</span>
-                                            <h2>@companyRecord.ReportDate</h2>
-                                            <span>Fiscal Date Ending</span>
-                                            <h2>@companyRecord.FiscalDateEnding</h2>
-                                        </div>
-            }
-        }*@
+        <div class="col">
+            <div class="row">
+            @*
+           @{
+                CompanyModel companyRecord = await _stockRepository.GetEarnings(companyName);
+                if (companyRecord != null)
+                {
+                    /* Display information regarding the company. */
+                                            <div class="factFrame">
+                                                <span>Full-Name</span>
+                                                <h2>@companyRecord.Name</h2>
+                                                <span>Earning Estimate</span>
+                                                <h2>@companyRecord.Estimate @companyRecord.Currency</h2>
+                                                <span>Report Date</span>
+                                                <h2>@companyRecord.ReportDate</h2>
+                                                <span>Fiscal Date Ending</span>
+                                                <h2>@companyRecord.FiscalDateEnding</h2>
+                                            </div>
+                }
+            }*@
+            </div>
         </div>
-    </div>
     
+    </div>
 </div>
-
 
 @{
     List<string> xDates = null;
