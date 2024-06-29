@@ -305,7 +305,7 @@ mytable {
 footer {
     position: absolute;
     bottom: 0;
-    width: 103%;
+    width: 100%;
 }
     
 a {
@@ -362,7 +362,8 @@ body {
 
 
 .myFooter {
-    position: absolute;
+    overflow-x: hidden;
+    position: fixed;
     width: 100%;
     bottom: 0px;
     background-color: rgb(59, 82, 194);
@@ -473,6 +474,12 @@ header {
     }
 }
 
+body {
+    display: block;
+    align-content: center;
+    justify-content: center;
+}
+
 @media (min-width: 500px) {
     .nextFrame {
         background-color: rgba(0, 10, 100, 0.3);
@@ -502,6 +509,8 @@ header {
 .stock-btn:hover {
     opacity: 1;
 }
+
+
 
 .stock-btn:active {
     transform: translateY(10px);
