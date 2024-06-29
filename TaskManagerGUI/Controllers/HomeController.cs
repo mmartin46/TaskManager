@@ -98,15 +98,17 @@ namespace TaskManagerGUI.Controllers
         {
             try
             {
-                if (ProcessList != null)
+                lock (_lock)
                 {
-                    ProcessList.Clear();
-                }    
-                    
-                ProcessList = _processRepository.GetProcessesByNameAsync().Result;
-                ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(90).ToList();
-                _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
-           
+                    if (ProcessList != null)
+                    {
+                        ProcessList.Clear();
+                    }
+
+                    ProcessList = _processRepository.GetProcessesByNameAsync().Result;
+                    ProcessList = ProcessList.OrderByDescending(process => process.CPU).Take(90).ToList();
+                    _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
+                }
             }
             catch
             {
