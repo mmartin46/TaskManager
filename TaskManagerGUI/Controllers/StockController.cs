@@ -32,7 +32,7 @@ namespace TaskManagerGUI.Controllers
             // If a company isn't provided?
             if (company == null)
             {
-                StockName = _configuration.GetValue<string>("DefaultCompany") ?? "";
+                StockName = _configuration.GetValue<string>("DefaultCompany") ?? string.Empty;
             }
             else
             {

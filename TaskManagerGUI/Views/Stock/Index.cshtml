@@ -6,7 +6,7 @@
 @inject TaskManagerGUI.Repositories.IStockRepository _stockRepository;
 @{
     var companyName = ViewData["StockName"] as string;
-    var stockData = await _stockRepository.ProcessStockApi(companyName);
+    var stockData = await _stockRepository.ProcessStockApi(companyName ?? string.Empty);
     var stockModel = await _stockRepository.GetEarnings(companyName);
 }
 

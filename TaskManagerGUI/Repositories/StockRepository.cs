@@ -33,12 +33,12 @@ namespace TaskManagerGUI.Repositories
             }
         }
 
-        public async Task<CompanyModel> GetEarnings(string ?company)
+        public async Task<CompanyModel?> GetEarnings(string ?company)
         {
             string companyToCheck;
             if (company == null) 
             {
-                companyToCheck = _configuration.GetValue<string>("DefaultCompany");
+                companyToCheck = _configuration.GetValue<string>("DefaultCompany") ?? string.Empty;
             }
             else
             {
