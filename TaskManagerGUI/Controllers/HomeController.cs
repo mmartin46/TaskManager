@@ -45,6 +45,7 @@ namespace TaskManagerGUI.Controllers
             MemoryList = new List<MemoryModel>();
 
             _timers = new List<Timer>();
+            InitializeLists();
             InitializeTimers();
         }
 
@@ -88,6 +89,12 @@ namespace TaskManagerGUI.Controllers
             }
         }
 
+        private void InitializeLists()
+        {
+            RefreshMemoryListAsync(new object { });
+            RefreshProcessListAsync(new object { }  );
+        }
+
 
         private void RefreshProcessListAsync(object state)
         {
@@ -103,7 +110,7 @@ namespace TaskManagerGUI.Controllers
                 _processHubContext.Clients.All.SendAsync("UpdateProcesses", ProcessList);
            
             }
-            catch (Exception ex)
+            catch
             {
 
             }
@@ -120,7 +127,7 @@ namespace TaskManagerGUI.Controllers
                 }
                 _memoryStatsHubContext.Clients.All.SendAsync("UpdateMemoryStats", MemoryList);
             }
-            catch (Exception ex)
+            catch
             {
 
             }
