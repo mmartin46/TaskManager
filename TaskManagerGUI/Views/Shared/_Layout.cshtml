@@ -39,6 +39,35 @@
     <script>
         $(document).ready(function () {
 
+
+            // debug this
+            $("#dark-mode").click(function () {
+                var root = document.querySelector(':root');
+
+                if (localStorage.getItem('--start-color') === 'rgba(154,154,255,1)' || localStorage.getItem('--start-color') === null) {
+
+                    localStorage.setItem('--start-color', 'rgb(32, 0, 59)');
+                    localStorage.setItem('--end-color', 'rgb(24, 68, 184)');
+
+                    root.style.setProperty('--start-color', localStorage.getItem('--start-color'));
+                    root.style.setProperty('--end-color', localStorage.getItem('--end-color'));
+                }
+            });
+
+            $("#light-mode").click(function () {
+                var root = document.querySelector(':root');
+                console.log(localStorage.getItem('--start-color'));
+
+                if (localStorage.getItem('--start-color') === 'rgb(32, 0, 59)' || localStorage.getItem('--start-color') === null) {
+
+                    localStorage.setItem('--start-color', 'rgba(154,154,255,1)');
+                    localStorage.setItem('--end-color', 'rgba(0,212,255,1)');
+
+                    root.style.setProperty('--start-color', localStorage.getItem('--start-color'));
+                    root.style.setProperty('--end-color', localStorage.getItem('--end-color'));
+                }
+             });
+
             $("#close-sidebar").click(function() {
 
 
@@ -69,6 +98,15 @@
             </span>
         </div>
         </br>
+        <div class="color-change">
+            <span>
+                <img src="~/images/moon.png" id="dark-mode"></img>
+            </span>
+            <span>
+                <img src="~/images/sun.png" id="light-mode"></img>
+            </span>
+        </div>
+        </br>
         <div>
             <span>
                 <a class="nav-item remove-link" asp-controller="Login" asp-action="Index">Login</a>
@@ -80,6 +118,7 @@
                 <a class="nav-item remove-link" asp-controller="Login" asp-action="Logout">Logout</a>
             </span>
         </div>
+
     </article>
     <div class="">
         <main class="main" role="main">

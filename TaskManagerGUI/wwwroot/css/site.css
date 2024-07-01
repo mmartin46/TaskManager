@@ -480,6 +480,19 @@ header {
     }
 }
 
+.color-change img {
+    height: 40px;
+    transition-duration: 0.5s;
+}
+
+.color-change img:hover {
+    transform: translateY(-3px);
+}
+
+.color-change img:active {
+    transform: translateY(3px);
+}
+
 body {
     display: block;
     align-content: center;
