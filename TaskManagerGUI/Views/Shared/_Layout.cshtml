@@ -38,7 +38,9 @@
     </header>
     <script>
         $(document).ready(function () {
-
+            var root = document.querySelector(':root');
+            root.style.setProperty('--start-color', localStorage.getItem('--start-color'));
+            root.style.setProperty('--end-color', localStorage.getItem('--end-color'));
 
             // debug this
             $("#dark-mode").click(function () {
