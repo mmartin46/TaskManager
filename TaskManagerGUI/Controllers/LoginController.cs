@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
 using TaskManagerGUI.Constants;
 using TaskManagerGUI.Models;
 using TaskManagerGUI.Repositories;
@@ -13,9 +14,12 @@ namespace TaskManagerGUI.Controllers
         [ViewData]
         public string? ErrorMessage { get; set; }
         private readonly IUserRepository? _userRepository = null;
-        public LoginController(IUserRepository userRepository)
+        private readonly IMemoryCache _memoryCache;
+
+        public LoginController(IUserRepository userRepository, IMemoryCache memoryCache)
         {
             _userRepository = userRepository;
+            _memoryCache = memoryCache;
         }
 
         public ViewResult Index(bool? didAuthenticate)
@@ -28,6 +32,12 @@ namespace TaskManagerGUI.Controllers
         public async Task<ActionResult> AuthenticateUser([FromForm] LoginModel loginModel)
         {
             List<LoginModel>? users = null;
+            string? cacheMessage;
+
+            if (_memoryCache.TryGetValue("register", out cacheMessage))
+            {
+                ViewData["ErrorMessage"] = cacheMessage;
+            }
 
             if (_userRepository is not null)
             {
@@ -73,6 +83,14 @@ namespace TaskManagerGUI.Controllers
         {
             ViewData["ErrorMessage"] = "";
             bool trueValidState = true;
+            string? cacheMessage;
+
+            if (_memoryCache.TryGetValue("register", out cacheMessage))
+            {
+                ViewData["ErrorMessage"] = cacheMessage;
+            }
+
+
             if (ModelState.IsValid)
             {
                 if (!registerModel.Password.Equals(registerModel.ConfirmPassword))

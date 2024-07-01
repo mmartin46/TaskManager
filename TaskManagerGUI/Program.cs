@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Razor;
 using TaskManagerGUI.Repositories;
 using Microsoft.AspNetCore.RateLimiting;
 using TaskManagerGUI.Middleware;
+using TaskManagerGUI.Cache;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,10 +27,18 @@ builder.Services.AddDbContext<ServiceDatabaseContext>(options => options.UseSqlS
     configuration.GetConnectionString("ServiceConnection")
 ));
 
+builder.Services.AddMemoryCache(options =>
+{
+    options.SizeLimit = 1020 * 1020 * 10;
+    options.CompactionPercentage = 0.25;
+    options.ExpirationScanFrequency = TimeSpan.FromSeconds(30);
+});
+
 
 // Add services to the container.
 builder.Services.AddLogging(builder => builder.AddConsole());
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
 builder.Services.AddLoginRateLimiter();
 
 builder.Services.AddSignalR();

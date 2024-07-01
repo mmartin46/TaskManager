@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using System.Threading.RateLimiting;
@@ -7,6 +8,7 @@ namespace TaskManagerGUI.Middleware
 {
     public static class RateLimitingExtensions
     {
+
         public static IServiceCollection AddLoginRateLimiter(this IServiceCollection services)
         {
             services.AddRateLimiter(options =>
