@@ -16,7 +16,8 @@ Task Manager Dashboard developed utilizing the ASP.NET CORE Framework
 <a href='https://postimg.cc/Q9SgzwKD' target='_blank'><img src='https://i.postimg.cc/Q9SgzwKD/Screenshot-2024-06-18-124910.png' border='0' alt='Screenshot-2024-06-18-124910'/></a>
 
 #### Footage
-<a href='https://postimg.cc/1g7jRVNT' target='_blank'><img src='https://i.postimg.cc/1g7jRVNT/ezgif-1-adc6efefc5.gif' border='0' alt='ezgif-1-adc6efefc5'/></a>
+
+<a href='https://postimg.cc/N51dv42j' target='_blank'><img src='https://i.postimg.cc/N51dv42j/ezgif-4-2113173b4e.gif' border='0' alt='ezgif-4-2113173b4e'/></a>
 <a href='https://postimg.cc/y3kVkJBd' target='_blank'><img src='https://i.postimg.cc/y3kVkJBd/ezgif-4-4e14c24061.gif' border='0' alt='ezgif-4-4e14c24061'/></a>
 
 ### Technologies Used
